@@ -1,0 +1,23 @@
+<h2>Please Register</h2>
+
+
+<%= form_for @user do |f| %>
+
+  <%= f.label :username %>
+  <%= f.text_field :username %>
+  <%= f.label :password %>
+  <%= f.password_field :password %>
+  <%= f.label :password_confirmation %>
+  <%= f.password_field :password_confirmation %>
+  <%= f.label :email %>
+  <%= f.email_field :email %>
+  <%= f.label :phone %>
+  <%= f.telephone_field :phone %>
+  <%= f.label :profile_image %>
+  <%= f.url_field :profile_image %>
+  <%= f.hidden_field :cash, :value => 5000 %>
+  <%= f.submit 'Register'%>
+
+<% end %>
+
+<%= link_to 'Already signed up? Log in here', log_in_path %>
