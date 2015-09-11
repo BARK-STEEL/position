@@ -7,11 +7,14 @@ Rails.application.routes.draw do
 
 
   # Trades
-  get '/trades' => 'trade#index'
-  get '/trades/new' => 'trade#new'
-  get '/trades/:id' => 'trade#show'
-  post '/trades' => 'trade#create'
-  resources :trades, only: [:index, :new, :create, :show]
+  namespace :api do
+    resources :trade, only: [:index, :new, :create, :show]
+    get '/trades' => 'trade#index'
+    get '/trades/new' => 'trade#new'
+    get '/trades/:id' => 'trade#show'
+    post '/trades' => 'trade#create'
+  end
+
 
   get '/users' => 'users#index'
   get '/users/register' => 'users#register', as: :register
