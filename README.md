@@ -1,6 +1,12 @@
 # position
 
-#User Stories
+* A stock-trading simulation application
+
+* Consumes Markit On Demand's series of APIs that provide current stock prices and performance history
+
+***
+
+# User Stories
 
 * A user can register, login and edit her profile, including username, password, email, and optional phone number and profile photo, so that she can have access to the application's features.
 
