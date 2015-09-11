@@ -1,1 +1,5 @@
 <h2>Welcome, <%= @user.username %></h2>
+
+Total Cash: $<%= sprintf "%.2f", @user.cash %>
+
+<%= button_to 'Log Out', '/sessions', method: :destroy %>
