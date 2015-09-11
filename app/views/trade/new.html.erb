@@ -1,0 +1,12 @@
+<h1>New Trade</h1>
+
+
+<%= form_for @trade do |f| %>
+  <%= f.label :company_symbol %>
+  <%= f.text_field :company_symbol %>
+  <%= f.label :number_of_shares %>
+  <%= f.text_field :number_of_shares %>
+  <%= f.label :trade_type %>
+  <%= f.text_field :trade_type %>
+  <%= f.submit "Make a Trade" %>
+<% end %>
