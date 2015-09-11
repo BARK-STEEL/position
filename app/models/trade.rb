@@ -1,5 +1,7 @@
 class Trade < ActiveRecord::Base
 
+  belongs_to :user
+
 
   def stock_search(symbol)
     response = HTTParty.get("http://dev.markitondemand.com/Api/v2/Quote?symbol=#{symbol}")

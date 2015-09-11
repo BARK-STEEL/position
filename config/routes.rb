@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   get '/users' => 'users#index'
-  get '/users/register' => 'users#new', as: :register
+  get '/users/register' => 'users#register', as: :register
   post '/users' => 'users#create'
   get '/users/profile' => 'users#profile', as: :profile
   get '/users/login' => 'users#login', as: :log_in

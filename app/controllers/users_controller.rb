@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
   end
 # signup GET  /signup(.:format)        users#new
-  def new
+  def register
 
     @user = User.new
 
