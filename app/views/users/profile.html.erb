@@ -1,5 +1,9 @@
 <input type="hidden" id="api-token" value="<%= @user.token %>">
 
+<header id="header" class="row">
+  <h2 id="logo" class="col-xs-8">Position(Logo)</h2>
+</header>
+<div class="container">
 <h2>Welcome, <%= @user.username %></h2>
 
 <%= button_to 'Log Out', '/sessions', method: :destroy %>
@@ -10,3 +14,4 @@
 <h3>Cash available to trade: $<%= sprintf "%.2f", @user.cash %></h3>
 <table id="trades-table">
 </table>
+</div>

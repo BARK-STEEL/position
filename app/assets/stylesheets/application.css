@@ -14,3 +14,25 @@
  *= require_self
  *= require bootstrap.min
  */
+
+ #header {
+   background-color: lightblue;
+   padding: 2% 1% 2% 5%;
+   vertical-align: middle;
+ }
+
+ h2#logo {
+   margin: 0;
+ }
+
+ .container {
+   padding: 1% 1% 1% 5%;
+ }
+
+ .login {
+   margin: 3px;
+ }
+
+ .register {
+   margin: 3px;
+ }
