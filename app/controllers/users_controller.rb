@@ -39,6 +39,7 @@ class UsersController < ApplicationController
 
     authorize!
     @user = current_user
+    render layout: "profile_layout"
 
   end
 
