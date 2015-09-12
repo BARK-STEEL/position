@@ -13,6 +13,7 @@
 //= require jquery
 //= require jqueryUi
 //= require underscore
+//= require underscore_string
 //= require backbone
 //= require app
 //= require turbolinks

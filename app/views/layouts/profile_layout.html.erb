@@ -4,10 +4,25 @@
   <title>Position</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <script type="text/template" id="trade-template">
+    <td>
+      <%%= company_symbol %>
+    </td>
+    <td>
+      <%%= number_of_shares %>
+    </td>
+    <td>
+      <%%= share_purchase_price %>
+    </td>
+    <td>
+        <%%= trade_type.toUpperCase() %>
+    </td>
+  </script>
 </head>
 <body>
 
 <%= yield %>
+
 
 <%= javascript_include_tag 'users', 'data-turbolinks-track' => true %>
 
