@@ -2,8 +2,11 @@
 
 <h2>Welcome, <%= @user.username %></h2>
 
-Total Cash: $<%= sprintf "%.2f", @user.cash %>
-
 <%= button_to 'Log Out', '/sessions', method: :destroy %>
 
 <a href="/api/trade/new">Make a New Trade</a>
+
+<h2>Positions</h2>
+<h3>Cash available to trade: $<%= sprintf "%.2f", @user.cash %></h3>
+<table id="trades-table">
+</table>
