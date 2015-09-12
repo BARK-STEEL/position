@@ -62,3 +62,46 @@ app.tradePainter = new app.TradeListView({
 });
 
 app.trades.fetch();
+
+
+// Stock Backbone Models/Views
+
+app.Stock = Backbone.Model.extend({
+    initialize: function(options)   {
+      if (options.stock_symbol)
+      this.stock_symbol = options.stock_symbol;
+        },
+    url: function()
+    {
+        return "http://dev.markitondemand.com/Api/v2/Quote?symbol="+this.stock_symbol;
+    },
+});
+
+app.StockCollection = Backbone.Collection.extend({
+  model: app.Stock,
+  url: this.model.url()
+});
+
+
+
+app.StockView = Backbone.View.extend({
+  tagName: 'tr',
+  className: 'stock',
+  template: _.template( $('#stock-template').html() ),
+  render: function(){
+    this.$el.empty();
+    var html = this.template( this.model.toJSON() );
+    var $html = $( html );
+    this.$el.append( $html );
+  },
+  events: {
+        'click button' : 'getstocks'
+    },
+  getstocks: function() {
+
+          var stockSymbol = this.$el.find('input').val();
+          var stocks = new app.StockCollection({stock_symbol: stock_symbol});
+
+          stocks.fetch();
+      }
+});
