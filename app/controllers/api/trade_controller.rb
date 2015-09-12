@@ -1,5 +1,8 @@
 class Api::TradeController < ApplicationController
 
+  include SessionsHelper
+
+
   def index
 
     user = User.find_by({token: env['HTTP_TOKEN']})
@@ -8,15 +11,14 @@ class Api::TradeController < ApplicationController
   end
 
   def new
-
     @trade = Trade.new
 
   end
 
   def create
 
-    user = User.find_by({token: env['HTTP_TOKEN']})
-    @trade = user.trades.create(trade_params)
+    # user = User.find_by({token: env['HTTP_TOKEN']})
+    @trade = current_user.trades.create(trade_params)
     stock_search(@trade[:company_symbol])
     @trade.update({share_purchase_price: @last_price})
     render json: @trade
