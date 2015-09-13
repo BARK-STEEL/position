@@ -17,8 +17,17 @@
  */
 
  #header {
-   background-color: rgba(0, 0, 0, 0.7);;
-   padding: 2% 2% 0 2%;
+   /*background-color: rgba(0, 0, 0, 0.7);;*/
+   background-color: rgb(60, 67, 160);
+   padding: 2% 0 2% 2%;
+   vertical-align: bottom;
+   color: white;
+ }
+
+ #header2 {
+   /*background-color: rgba(0, 0, 0, 0.7);*/
+   background-color: rgb(60, 67, 160);
+   padding: 2% 0 0 2%;
    vertical-align: bottom;
    color: white;
  }

@@ -1,22 +1,21 @@
 <input type="hidden" id="api-token" value="<%= @user.token %>">
 
-<header id="header" class="row">
-  <h2 id="logo" class="col-xs-10">Position(Logo)</h2><span class="navbar-text">Signed in as <%= @user.username %> <i class="glyphicon glyphicon-user"></i></span>
+<header id="header2" class="row">
+  <h2 id="logo" class="col-xs-10">Position</h2><span class="navbar-text">Signed in as <%= @user.username %> <i class="glyphicon glyphicon-user"></i></span>
 </header>
 <nav class="navbar navbar-default">
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">My Profile <span class="sr-only">(current)</span></a></li>
-          <li><a href="#">Company Lookup</a></li>
-          <li><a href="#">Trade</a></li>
-          <li><a href="#">Positions</a></li>
-          <li><a href="#">Market Research</a></li>
+          <li class="active"><a href="/users/profile">My Profile <span class="sr-only">(current)</span></a></li>
+          <li><a href="/users/stock_lookup">Stock Lookup</a></li>
+          <li><a href="/users/trade">Trade</a></li>
+          <li><a href="/users/positions">Positions</a></li>
+          <li><a href="/users/market_research">Market Research</a></li>
         </ul>
-
         <ul class="nav navbar-nav navbar-right">
           <form class="navbar-form navbar-left" role="search">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search Company" aria-describedby="basic-addon2">
+              <input type="text" class="form-control" placeholder="Search Stock" aria-describedby="basic-addon2">
               <span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-search"></i></span>
             </div>
           </form>

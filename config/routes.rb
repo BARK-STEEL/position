@@ -20,6 +20,10 @@ Rails.application.routes.draw do
   post '/users' => 'users#create'
   get '/users/profile' => 'users#profile', as: :profile
   get '/users/login' => 'users#login', as: :log_in
+  get '/users/stock_lookup' => 'users#stock_lookup'
+  get '/users/trade' => 'users#trade'
+  get 'users/positions' => 'users#positions'
+  get 'users/market_research' => 'users#market_research'
 
   resources :sessions, only: [:destroy, :create]
 
