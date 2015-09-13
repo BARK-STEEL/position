@@ -25,27 +25,35 @@
     </div><!-- /.container-fluid -->
 </nav>
 <div class="container">
-  <h2>Trade</h2>
+  <h2>Preview Order</h2>
+  <ul class="preview-order">
+    <div class="data-point">
+      <span class="key col-xs-3">Symbol:</span>
+      <span class="col-xs-3">AAPL</span><br>
+    </div>
+    <div class="data-point col-xs">
+      <span class="key col-xs-3">Price:</span>
+      <span class="col-xs-3">$114.21</span><br>
+    </div>
+    <div class="data-point">
+      <span class="key col-xs-3">Action:</span>
+      <span class="col-xs-3">BUY</span><br>
+    </div>
+    <div class="data-point">
+      <span class="key col-xs-3">Quantity:</span>
+      <span class="col-xs-3">100 Shares</span><br>
+    </div>
+    <div class="data-point">
+      <span class="key col-xs-3">Commission:</span>
+      <span class="col-xs-3">$7.95</span><br>
+    </div>
+    <div class="data-point">
+      <span class="key col-xs-3">Estimated Order Value:</span>
+      <span class="col-xs-3">$11,428.95</span><br>
+    </div>
+  </ul>
 
-  <form class="navbar-form create-trade" action="/api/trades" method="post">
-    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-  <div class="trade-form input-group col-xs-4">
-    <span class="input-group-addon" id="basic-addon2">Stock</i></span>
-    <input id="company-symbol" type="text" class="form-control" name="trade[company_symbol]" placeholder="Enter Company Symbol">
-  </div><br>
-  <div class="trade-form input-group col-xs-4">
-    <span class="input-group-addon" id="basic-addon2">Quantity</i></span>
-    <input id="number-of-shares" class="form-control" type="number" name="trade[number_of_shares]" placeholder="Enter Number of Shares">
-  </div><br>
-  <div class="trade-form input-group">
-    <span class="input-group-addon" id="basic-addon2">Action</i></span>
-    <select id="trade-type" class="form-control" name="trade[trade_type]">
-      <option value="buy">Buy</option>
-      <option value="sell">Sell</option>
-    </select>
-  </div>
-    <br>
-    <a href="/users/preview_order"><input class="trade-form btn btn-primary" type="submit" value="Preview Order"></a>
+  <a href="/users/positions"><input class="trade-form btn btn-primary" type="submit" value="Confirm Order"></a>
 
-  </form>
+
 </div>

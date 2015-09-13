@@ -52,6 +52,10 @@ class UsersController < ApplicationController
     @user = current_user
   end
 
+  def preview_order
+    @user = current_user
+  end
+
   def positions
     @user = current_user
   end

@@ -22,8 +22,10 @@ Rails.application.routes.draw do
   get '/users/login' => 'users#login', as: :log_in
   get '/users/stock_lookup' => 'users#stock_lookup'
   get '/users/trade' => 'users#trade'
-  get 'users/positions' => 'users#positions'
-  get 'users/market_research' => 'users#market_research'
+  get '/users/preview_order' => 'users#preview_order'
+  get '/users/positions' => 'users#positions'
+  get '/users/market_research' => 'users#market_research'
+
 
   resources :sessions, only: [:destroy, :create]
 
