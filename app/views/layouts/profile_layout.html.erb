@@ -18,8 +18,20 @@
         <%%= trade_type.toUpperCase() %>
     </td>
   </script>
+  <script type="text/template" id="stock-template">
+    <td>
+      <%%= company_symbol %>
+    </td>
+    <td>
+      <%%= last_price %>
+    </td>
+    <input type='text' placeholder='search'> \
+               <button>Search stock</button> \
+               <ul id='stock-list'></ul>"
+  </script>
 </head>
 <body>
+
 
 <%= yield %>
 

@@ -1,3 +1,7 @@
+<header id="header" class="row">
+  <h2 id="logo" class="col-xs-8">Position(Logo)</h2>
+</header>
+<div class="container">
 <h2>Please Log In</h2>
 
 <%= form_tag '/sessions', method: :post do %>
@@ -11,3 +15,4 @@
 <% end %>
 
 <%= link_to 'Need to sign up? Register here', register_path, method: :get %>
+</div>

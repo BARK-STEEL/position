@@ -1,5 +1,9 @@
-<h2>Please Register</h2>
+<header id="header" class="row">
+  <h2 id="logo" class="col-xs-8">Position(Logo)</h2>
+</header>
 
+<div class="container">
+<h2>Please Register</h2>
 
 <%= form_for @user do |f| %>
 
@@ -21,3 +25,4 @@
 <% end %>
 
 <%= link_to 'Already signed up? Log in here', log_in_path %>
+</div>

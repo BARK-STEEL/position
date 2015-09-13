@@ -1,6 +1,7 @@
 class Api::TradeController < ApplicationController
 
   include Api::TradesHelper
+  include SessionsHelper
 
   before_action :current_api_user!
 

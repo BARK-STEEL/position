@@ -15,7 +15,6 @@ Rails.application.routes.draw do
     post '/trades' => 'trade#create'
   end
 
-
   get '/users' => 'users#index'
   get '/users/register' => 'users#register', as: :register
   post '/users' => 'users#create'

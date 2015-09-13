@@ -1,8 +1,14 @@
 <input type="hidden" id="api-token" value="<%= @user.token %>">
 
-<h2>Welcome, <%= @user.username %>, <%=@user.id%></h2>
+<header id="header" class="row">
+  <h2 id="logo" class="col-xs-8">Position(Logo)</h2>
+</header>
+<div class="container">
+<h2>Welcome, <%= @user.username %></h2>
 
 <%= button_to 'Log Out', '/sessions', method: :destroy %>
+
+<a href="/api/trade/new">Make a New Trade</a>
 
 <h2>Positions</h2>
 <h3>Cash available to trade: $<%= sprintf "%.2f", @user.cash %></h3>
@@ -22,3 +28,12 @@
   </select>
   <input type="submit" value="Make Trade">
 </form>
+
+<input type='text' placeholder='search stock'>
+<!-- <span class="glyphicon glyphicon-search" aria-hidden="true"></span> -->
+
+           <button><i class="glyphicon glyphicon-search" ></i></button>
+           <ul id='stock-list'></ul>
+
+
+</div>
