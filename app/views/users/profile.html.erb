@@ -1,6 +1,6 @@
 <input type="hidden" id="api-token" value="<%= @user.token %>">
 
-<h2>Welcome, <%= @user.username %></h2>
+<h2>Welcome, <%= @user.username %>, <%=@user.id%></h2>
 
 <%= button_to 'Log Out', '/sessions', method: :destroy %>
 
@@ -8,3 +8,17 @@
 <h3>Cash available to trade: $<%= sprintf "%.2f", @user.cash %></h3>
 <table id="trades-table">
 </table>
+
+<h1>New Trade</h1>
+
+
+<form class="create-trade" action="/api/trades" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <input id="company-symbol" type="text" name="trade[company_symbol]" placeholder="Company Symbol">
+  <input id="number-of-shares" type="number" name="trade[number_of_shares]" placeholder="Number of Shares">
+  <select id="trade-type" name="trade[trade_type]">
+    <option value="buy">Buy</option>
+    <option value="sell">Sell</option>
+  </select>
+  <input type="submit" value="Make Trade">
+</form>

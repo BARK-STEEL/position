@@ -39,8 +39,9 @@ class UsersController < ApplicationController
 
     authorize!
     @user = current_user
+    @trade = @user.trades.new
     render layout: "profile_layout"
-
+    
   end
 
   def login

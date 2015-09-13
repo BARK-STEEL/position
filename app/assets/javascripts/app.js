@@ -3,6 +3,7 @@ console.log('scripts loaded');
 var token = $('#api-token').val();
 $.ajaxSetup({
   headers: {
+    "accept": "application/json",
     "token": token
   }
 });
@@ -62,3 +63,11 @@ app.tradePainter = new app.TradeListView({
 });
 
 app.trades.fetch();
+
+$('form.create-trade').on('submit', function(e){
+  e.preventDefault();
+  var newCompanySymbol = $("#company-symbol").val();
+  var newNumberOfShares = $("#number-of-shares").val();
+  var newTradeType = $("#trade-type").val();
+  app.trades.create({company_symbol: newCompanySymbol, number_of_shares: newNumberOfShares, trade_type: newTradeType});
+});
