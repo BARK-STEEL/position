@@ -1,35 +1,29 @@
 class Api::TradeController < ApplicationController
 
+  include Api::TradesHelper
   include SessionsHelper
 
+  before_action :current_api_user!
 
   def index
 
-    user = User.find_by({token: env['HTTP_TOKEN']})
-    render json: user.trades
-
-  end
-
-  def new
-    @trade = Trade.new
+    render json: @current_user.trades
 
   end
 
   def create
 
-    # user = User.find_by({token: env['HTTP_TOKEN']})
-    @trade = current_user.trades.create(trade_params)
+    @trade = @current_user.trades.create(trade_params)
     stock_search(@trade[:company_symbol])
     @trade.update({share_purchase_price: @last_price})
+    @current_user.update({cash: @current_user['cash'].to_i-(@last_price.to_i*@trade['number_of_shares'].to_i)})
     render json: @trade
 
   end
 
   def show
 
-    user = User.find_by({token: env['HTTP_TOKEN']})
-    @trade = user.trades.find(params[:id])
-    render json: @trade
+    render json:  @current_user.trades.find(params[:id])
 
   end
 

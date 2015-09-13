@@ -1,5 +1,29 @@
 <input type="hidden" id="api-token" value="<%= @user.token %>">
 
+<header id="header2" class="row">
+  <h2 id="logo" class="col-xs-10">Position</h2><span class="navbar-text">Signed in as <%= @user.username %> <i class="glyphicon glyphicon-user"></i></span>
+</header>
+<nav class="navbar navbar-default">
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/users/profile">My Profile <span class="sr-only">(current)</span></a></li>
+          <li><a href="/users/stock_lookup">Stock Lookup</a></li>
+          <li><a href="/users/trade">Trade</a></li>
+          <li><a href="/users/positions">Positions</a></li>
+          <li><a href="/users/market_research">Market Research</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <form class="navbar-form navbar-left" role="search">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search Stock" aria-describedby="basic-addon2">
+              <span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-search"></i></span>
+            </div>
+          </form>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
 <h2>Welcome, <%= @user.username %></h2>
 
 <%= button_to 'Log Out', '/sessions', method: :destroy %>
@@ -11,6 +35,25 @@
 <table id="trades-table">
 </table>
 
-<input type='text' placeholder='search'> \
-           <button>Search stock</button> \
-           <ul id='stock-list'></ul>"
+<h1>New Trade</h1>
+
+
+<form class="create-trade" action="/api/trades" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <input id="company-symbol" type="text" name="trade[company_symbol]" placeholder="Company Symbol">
+  <input id="number-of-shares" type="number" name="trade[number_of_shares]" placeholder="Number of Shares">
+  <select id="trade-type" name="trade[trade_type]">
+    <option value="buy">Buy</option>
+    <option value="sell">Sell</option>
+  </select>
+  <input type="submit" value="Make Trade">
+</form>
+
+<input type='text' placeholder='search stock'>
+<!-- <span class="glyphicon glyphicon-search" aria-hidden="true"></span> -->
+
+           <button><i class="glyphicon glyphicon-search" ></i></button>
+           <ul id='stock-list'></ul>
+
+
+</div>

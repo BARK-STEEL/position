@@ -39,8 +39,25 @@ class UsersController < ApplicationController
 
     authorize!
     @user = current_user
+    @trade = @user.trades.new
     render layout: "profile_layout"
 
+  end
+
+  def stock_lookup
+    @user = current_user
+  end
+
+  def trade
+    @user = current_user
+  end
+
+  def positions
+    @user = current_user
+  end
+
+  def market_research
+    @user = current_user
   end
 
   def login
