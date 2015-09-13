@@ -17,13 +17,31 @@
  */
 
  #header {
-   background-color: lightblue;
+   background-color: rgba(0, 0, 0, 0.7);;
    padding: 2% 1% 2% 5%;
    vertical-align: middle;
+   color: white;
  }
 
  h2#logo {
    margin: 0;
+ }
+
+ body {
+   /*background-image: url('bg.jpg');*/
+   background-repeat: no-repeat;
+   background-size: cover;
+ }
+
+ .pitch {
+   text-align: center;
+   /*color: white;*/
+ }
+
+ .pitch-glyph {
+   font-size: 3em;
+   margin: 15% 0 3% 0;
+   /*color: white;*/
  }
 
  .container {
