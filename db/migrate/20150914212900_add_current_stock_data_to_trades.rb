@@ -8,3 +8,4 @@ class AddCurrentStockDataToTrades < ActiveRecord::Migration
     add_column :trades, :low_price, :decimal
   end
 end
+ 
