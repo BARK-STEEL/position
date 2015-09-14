@@ -13,6 +13,10 @@ Rails.application.routes.draw do
     get '/trades/new' => 'trade#new'
     get '/trades/:id' => 'trade#show'
     post '/trades' => 'trade#create'
+    delete '/trades/:id' => 'trade#destroy'
+    get '/trades/:id/edit' => 'trade#edit'
+    put '/trades/:id' => 'trade#update'
+    patch '/trades/:id' => 'trade#update'
   end
 
   get '/users' => 'users#index'

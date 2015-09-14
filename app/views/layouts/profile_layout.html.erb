@@ -12,10 +12,13 @@
       <%%= number_of_shares %>
     </td>
     <td>
-      <%%= share_purchase_price %>
+      $<%%= parseFloat(share_purchase_price).toFixed(2) %>
     </td>
     <td>
-        <%%= trade_type.toUpperCase() %>
+      <%%= trade_type.toUpperCase() %>
+    </td>
+    <td>
+      $<%%= number_of_shares*share_purchase_price %>
     </td>
   </script>
   <script type="text/template" id="stock-template">

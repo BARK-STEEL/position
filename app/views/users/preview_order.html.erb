@@ -29,19 +29,19 @@
   <ul class="preview-order">
     <div class="data-point">
       <span class="key col-xs-3">Symbol:</span>
-      <span class="col-xs-3">AAPL</span><br>
+      <span class="col-xs-3"><%= @trade.company_symbol %></span><br>
     </div>
     <div class="data-point col-xs">
       <span class="key col-xs-3">Price:</span>
-      <span class="col-xs-3">$114.21</span><br>
+      <span class="col-xs-3">$<%= @trade.share_purchase_price %></span><br>
     </div>
     <div class="data-point">
       <span class="key col-xs-3">Action:</span>
-      <span class="col-xs-3">BUY</span><br>
+      <span class="col-xs-3"><%= @trade.trade_type %></span><br>
     </div>
     <div class="data-point">
       <span class="key col-xs-3">Quantity:</span>
-      <span class="col-xs-3">100 Shares</span><br>
+      <span class="col-xs-3"><%= @trade.number_of_shares %></span><br>
     </div>
     <div class="data-point">
       <span class="key col-xs-3">Commission:</span>
@@ -49,11 +49,20 @@
     </div>
     <div class="data-point">
       <span class="key col-xs-3">Estimated Order Value:</span>
-      <span class="col-xs-3">$11,428.95</span><br>
+      <span class="col-xs-3">$<%= sprintf "%.2f", ((@trade.share_purchase_price * @trade.number_of_shares) + 7.95) %></span><br>
     </div>
   </ul>
 
-  <a href="/users/positions"><input class="trade-form btn btn-primary" type="submit" value="Confirm Order"></a>
+  <a href="/users/profile"><input class="trade-form btn btn-primary" type="button" value="Confirm Order"></a>
+  <a href="/users/edit"><input class="trade-form btn btn-primary" type="button" value="Edit Order"></a>
+  <form action="/api/trades/<%= @trade.id %>" method="post">
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <input type="hidden" name="token" value="<%=@user.token%>">
+    <input type="hidden" name="_method" value="delete">
+    <input class="trade-form btn btn-primary" type="submit" value="Cancel Trade">
+  </form>
+  </form>
+
 
 
 </div>

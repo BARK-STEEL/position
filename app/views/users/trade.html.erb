@@ -1,3 +1,5 @@
+<input type="hidden" id="api-token" value="<%= @user.token %>">
+
 <header id="header2" class="row">
   <h2 id="logo" class="col-xs-10">Position</h2><span class="navbar-text">Signed in as <%= @user.username %> <i class="glyphicon glyphicon-user"></i><i class="caret"></i></span>
   <!-- <ul class="dropdown-menu">
@@ -43,9 +45,10 @@
       <option value="buy">Buy</option>
       <option value="sell">Sell</option>
     </select>
+    <input type="hidden" name="token" value="<%=@user.token%>"/>
   </div>
     <br>
-    <a href="/users/preview_order"><input class="trade-form btn btn-primary" type="submit" value="Preview Order"></a>
+    <input class="trade-form btn btn-primary" type="submit" value="Preview Order"></a>
 
   </form>
 </div>

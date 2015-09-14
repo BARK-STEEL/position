@@ -54,6 +54,7 @@ class UsersController < ApplicationController
 
   def preview_order
     @user = current_user
+    @trade = @user.trades.last
   end
 
   def positions
