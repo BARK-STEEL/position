@@ -65,6 +65,18 @@
    margin: 3px;
  }
 
+ .dashboard {
+   margin: 5% 0 0 0;
+ }
+
+ .account-value {
+   text-align: center;
+ }
+
+ .today-change {
+   text-align: center;
+ }
+
  .trade-form {
    margin: 10px 0;
  }

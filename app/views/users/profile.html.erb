@@ -26,14 +26,18 @@
 <div class="container">
 <h2>Welcome, <%= @user.username %></h2>
 
-<%= button_to 'Log Out', '/sessions', method: :destroy %>
 
-<a href="/api/trade/new">Make a New Trade</a>
+<div class="row dashboard">
+  <h2 class="account-value col-xs-5">$15,453.23</h2>
+  <h2 class="today-change col-xs-5">+$346.23</h2>
+  <span class="account-value col-xs-5">Account Value</span>
+  <span class="today-change col-xs-5">Today's Gain/Loss</span>
+</div>
 
-<h2>Positions</h2>
+<!-- <h2>Positions</h2>
 <h3>Cash available to trade: $<%= sprintf "%.2f", @user.cash %></h3>
 <table class="table table-striped" id="trades-table">
-</table>
+</table> -->
 
 <!-- <h1>New Trade</h1>
 
