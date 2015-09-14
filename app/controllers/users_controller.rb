@@ -46,6 +46,7 @@ class UsersController < ApplicationController
 
   def stock_lookup
     @user = current_user
+
   end
 
   def trade

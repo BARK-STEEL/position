@@ -1,5 +1,14 @@
 <header id="header2" class="row">
-  <h2 id="logo" class="col-xs-10">Position</h2><span class="navbar-text">Signed in as <%= @user.username %> <i class="glyphicon glyphicon-user"></i><i class="caret"></i></span>
+  <h2 id="logo" class="col-xs-10">Position</h2>
+    <span role="presentation" class=" dropdown navbar-text">
+      <span class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Signed in as <%= @user.username %> <i class="glyphicon glyphicon-user"></i><i class="caret"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li><a href="#">Edit Settings</a></li>
+        <li role="separator" class="divider"></li>
+        <li><%= link_to 'Log Out', '/sessions', method: :destroy %></li>
+      </ul>
+    </span>
 </header>
 <nav class="navbar navbar-default">
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -23,4 +32,31 @@
 </nav>
 <div class="container">
   <h2>Stock Lookup</h2>
+
+  <h2>Snapshot: AAPL</h2>
+  <span>Apple, Inc.</span><br>
+
+  <div>
+    <h2 class="col-xs-4"><strong>$114.21</strong> ^1.64(1.46%)</h2>
+    <h2 class="col-xs-8">
+      <button type="button" class="btn btn-primary">Buy</button>
+      <button type="button" class="btn btn-primary">Sell</button>
+    </h2>
+  </div>
+
+  <div id="stats">
+    <span class="col-xs-2"><strong>Open</strong></span>
+    <span class="col-xs-10">111.89</span>
+    <span class="col-xs-2"><strong>High</strong></span>
+    <span class="col-xs-10">114.17</span>
+    <span class="col-xs-2"><strong>Low</strong></span>
+    <span class="col-xs-10">111.76</span>
+    <span class="col-xs-2"><strong>Volume</strong></span>
+    <span class="col-xs-10">4431660</span>
+    <span class="col-xs-2"><strong>Market Cap</strong></span>
+    <span class="col-xs-10">651022743520</span>
+    <span class="col-xs-2"><strong>Yield</strong></span>
+    <span class="col-xs-10">1.89%</span>
+  </div>
+
 </div>

@@ -1,7 +1,16 @@
 <input type="hidden" id="api-token" value="<%= @user.token %>">
 
 <header id="header2" class="row">
-  <h2 id="logo" class="col-xs-10">Position</h2><span class="navbar-text">Signed in as <%= @user.username %> <i class="glyphicon glyphicon-user"></i><i class="caret"></i></span>
+  <h2 id="logo" class="col-xs-10">Position</h2>
+    <span role="presentation" class=" dropdown navbar-text">
+      <span class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Signed in as <%= @user.username %> <i class="glyphicon glyphicon-user"></i><i class="caret"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li><a href="#">Edit Settings</a></li>
+        <li role="separator" class="divider"></li>
+        <li><%= link_to 'Log Out', '/sessions', method: :destroy %></li>
+      </ul>
+    </span>
 </header>
 <nav class="navbar navbar-default">
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -26,14 +35,18 @@
 <div class="container">
 <h2>Welcome, <%= @user.username %></h2>
 
-<%= button_to 'Log Out', '/sessions', method: :destroy %>
 
-<a href="/api/trade/new">Make a New Trade</a>
+<div class="row dashboard">
+  <h2 class="account-value col-xs-5">$15,453.23</h2>
+  <h2 class="today-change col-xs-5">+$346.23</h2>
+  <span class="account-value col-xs-5">Account Value</span>
+  <span class="today-change col-xs-5">Today's Gain/Loss</span>
+</div>
 
-<h2>Positions</h2>
+<!-- <h2>Positions</h2>
 <h3>Cash available to trade: $<%= sprintf "%.2f", @user.cash %></h3>
 <table class="table table-striped" id="trades-table">
-</table>
+</table> -->
 
 <input type="text" class="stock-input" placeholder="entersybmol">
 <input type="button" id="jsonpbtn" value="">
