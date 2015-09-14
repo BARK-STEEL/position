@@ -24,13 +24,15 @@ app.TradeCollection = Backbone.Collection.extend({
   url: '/api/trades'
 });
 
+
+
 app.TradeView = Backbone.View.extend({
   tagName: 'tr',
   className: 'trade',
   template: _.template( $('#trade-template').html() ),
   render: function(){
     this.$el.empty();
-    var html = this.template( this.model.toJSON() );
+    var html = this.template( this.model );
     var $html = $( html );
     this.$el.append( $html );
   }
@@ -42,8 +44,8 @@ app.TradeListView = Backbone.View.extend({
   },
   render: function(){
     this.$el.empty();
-    this.$el.append('<tr class="header-row"><td>Symbol</td><td>Quantity</td><td>Purchase Price</td><td>Trade Type</td><td>Current Value</td></tr>');
-    var trades = this.collection.models;
+    this.$el.append('<tr class="header-row"><td>Symbol</td><td>Quantity</td><td>Cost Basis</td><td></td><td></td></tr>');
+    var trades = companyData()[0];
     var view;
     for ( var i = 0; i < trades.length; i++ ){
       view = new app.TradeView({
@@ -52,10 +54,14 @@ app.TradeListView = Backbone.View.extend({
       view.render();
       this.$el.append( view.$el );
     }
+    this.$el.append('<tr><td><b>Total:</b></td>' + '<td>' + companyData()[1][0] + '</td>' + '<td>$' + companyData()[1][1] + '</td><td></td><td></td></tr>');
+  },
+  events: {
   }
 });
 
 app.trades = new app.TradeCollection();
+
 
 app.tradePainter = new app.TradeListView({
   collection: app.trades,
@@ -63,6 +69,32 @@ app.tradePainter = new app.TradeListView({
 });
 
 app.trades.fetch();
+
+
+function companyData() {
+
+  var companyTotals = {};
+  var totals = {'total_portfolio_shares':0, 'total_portfolio_basis':0};
+  var indTrades = app.trades.models;
+  for (var i = 0; i < indTrades.length; i++){
+    totals.total_portfolio_shares += indTrades[i].attributes.number_of_shares;
+    totals.total_portfolio_basis+=(indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price);
+    if (companyTotals[indTrades[i].attributes.company_symbol]){
+      companyTotals[indTrades[i].attributes.company_symbol][0] += indTrades[i].attributes.number_of_shares;
+      companyTotals[indTrades[i].attributes.company_symbol][1] += (indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price);
+    } else {
+      companyTotals[indTrades[i].attributes.company_symbol] = [indTrades[i].attributes.number_of_shares, (indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price)] ;
+    }
+  }
+  companyArray = [];
+  portfolioTotals = [];
+  for (var symbol in companyTotals) {
+    companyArray.push({'company_symbol':symbol, 'number_of_shares':companyTotals[symbol][0], 'basis':companyTotals[symbol][1]});
+  }
+  portfolioTotals.push(totals.total_portfolio_shares, totals.total_portfolio_basis);
+  return [companyArray,portfolioTotals];
+}
+
 
 $('form.create-trade').on('submit', function(e){
   e.preventDefault();
@@ -72,6 +104,19 @@ $('form.create-trade').on('submit', function(e){
   app.trades.create({company_symbol: newCompanySymbol, number_of_shares: newNumberOfShares, trade_type: newTradeType});
 });
 
+$(document).on('click', '.sell-button', function(e){
+    $this = $(this);
+    $('#company-symbol').val($this.data('symbol'));
+});
+
+$.ajax({
+  url: 'http://dev.markitondemand.com/Api/v2/Quote?symbol=AAPL',
+  method:'get',
+  dataType:'xml',
+  success:function(data){
+    console.log(data);
+  }
+});
 // Stock Backbone Models/Views
 
 app.Stock = Backbone.Model.extend({
