@@ -17,5 +17,6 @@
 //= require backbone
 //= require app
 //= require turbolinks
+//= require bootstrap.min
 
 console.log('users manifest');
