@@ -131,8 +131,16 @@ app.Stock = Backbone.Model.extend({
 });
 
 app.StockCollection = Backbone.Collection.extend({
-  model: app.Stock,
-  url: this.model.url()
+  initialize: function(options)   {
+    if (options.stock_symbol)
+    this.stock_symbol = options.stock_symbol;
+      },
+    url: function()
+    {
+      return "http://dev.markitondemand.com/Api/v2/Quote?symbol="+this.stock_symbol;
+    },
+  // model: app.Stock,
+  // url: "http://dev.markitondemand.com/Api/v2/Quote?symbol="+this.stock_symbol
 });
 
 
@@ -141,6 +149,11 @@ app.StockView = Backbone.View.extend({
   tagName: 'tr',
   className: 'stock',
   template: _.template( $('#stock-template').html() ),
+  initialize: function(options) {
+
+       if (options.model)
+           this.model = options.model;
+   },
   render: function(){
     this.$el.empty();
     var html = this.template( this.model.toJSON() );
@@ -152,9 +165,12 @@ app.StockView = Backbone.View.extend({
     },
   getstocks: function() {
 
-          var stockSymbol = this.$el.find('input').val();
-          var stocks = new app.StockCollection({stock_symbol: stock_symbol});
+          var stockSymbol = $('.stock-input').val();
+          var stocks = new app.StockCollection({stock_symbol: stockSymbol});
 
           stocks.fetch();
       }
 });
+
+var test = new app.StockCollection({stock_symbol: 'AAPL'});
+var testView = new app.StockView({model: test});

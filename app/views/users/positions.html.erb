@@ -1,5 +1,14 @@
 <header id="header2" class="row">
-  <h2 id="logo" class="col-xs-10">Position</h2><span class="navbar-text">Signed in as <%= @user.username %> <i class="glyphicon glyphicon-user"></i><i class="caret"></i></span>
+  <h2 id="logo" class="col-xs-10">Position</h2>
+    <span role="presentation" class=" dropdown navbar-text">
+      <span class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Signed in as <%= @user.username %> <i class="glyphicon glyphicon-user"></i><i class="caret"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li><a href="#">Edit Settings</a></li>
+        <li role="separator" class="divider"></li>
+        <li><%= link_to 'Log Out', '/sessions', method: :destroy %></li>
+      </ul>
+    </span>
 </header>
 <nav class="navbar navbar-default">
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -23,4 +32,9 @@
 </nav>
 <div class="container">
   <h2>Positions</h2>
+
+  <span><strong>Cash available to trade:</strong> $<%= sprintf "%.2f", @user.cash %></span>
+  <table class="table table-striped" id="trades-table">
+  </table>
+
 </div>

@@ -65,8 +65,25 @@
    margin: 3px;
  }
 
+ .dashboard {
+   margin: 5% 0 0 0;
+ }
+
+ .account-value {
+   text-align: center;
+ }
+
+ .today-change {
+   text-align: center;
+ }
+
+ form.navbar-form {
+   margin: 3% 0 0 0;
+ }
+
  .trade-form {
    margin: 10px 0;
+   line-height: 2.5em;
  }
 
  .preview-order {
@@ -85,4 +102,9 @@
  .data-point:nth-child(even) {
    /*background-color: #eeeeee;*/
    /*color: #bbb;*/
+ }
+
+ #stats {
+   margin: 7% 0 0 0;
+   /*line-height: 2.5em;*/
  }
