@@ -42,7 +42,7 @@ app.TradeListView = Backbone.View.extend({
   },
   render: function(){
     this.$el.empty();
-    this.$el.append('<tr class="header-row"><td>Symbol</td><td>Number of Shares</td><td>Purchase Price</td><td>Trade Type</td></tr>');
+    this.$el.append('<tr class="header-row"><td>Symbol</td><td>Quantity</td><td>Purchase Price</td><td>Trade Type</td><td>Current Value</td></tr>');
     var trades = this.collection.models;
     var view;
     for ( var i = 0; i < trades.length; i++ ){

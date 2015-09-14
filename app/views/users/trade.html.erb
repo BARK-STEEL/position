@@ -1,5 +1,10 @@
+<input type="hidden" id="api-token" value="<%= @user.token %>">
+
 <header id="header2" class="row">
-  <h2 id="logo" class="col-xs-10">Position</h2><span class="navbar-text">Signed in as <%= @user.username %> <i class="glyphicon glyphicon-user"></i></span>
+  <h2 id="logo" class="col-xs-10">Position</h2><span class="navbar-text">Signed in as <%= @user.username %> <i class="glyphicon glyphicon-user"></i><i class="caret"></i></span>
+  <!-- <ul class="dropdown-menu">
+    <li><%= button_to 'Log Out', '/sessions', method: :destroy %></li>
+  </ul> -->
 </header>
 <nav class="navbar navbar-default">
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -40,9 +45,10 @@
       <option value="buy">Buy</option>
       <option value="sell">Sell</option>
     </select>
+    <input type="hidden" name="token" value="<%=@user.token%>"/>
   </div>
     <br>
-    <input class="trade-form" type="submit" value="Preview Order">
+    <input class="trade-form btn btn-primary" type="submit" value="Preview Order"></a>
 
   </form>
 </div>

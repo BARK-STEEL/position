@@ -17,16 +17,16 @@
  */
 
  #header {
-   /*background-color: rgba(0, 0, 0, 0.7);;*/
-   background-color: rgb(60, 67, 160);
+   background-color: #337ab7;
+   /*background-color: rgb(60, 67, 160);*/
    padding: 2% 0 2% 2%;
    vertical-align: bottom;
    color: white;
  }
 
  #header2 {
-   /*background-color: rgba(0, 0, 0, 0.7);*/
-   background-color: rgb(60, 67, 160);
+   background-color: #337ab7;
+   /*background-color: rgb(60, 67, 160);*/
    padding: 2% 0 0 2%;
    vertical-align: bottom;
    color: white;
@@ -67,4 +67,22 @@
 
  .trade-form {
    margin: 10px 0;
+ }
+
+ .preview-order {
+   padding-left: 0;
+   margin: 5% 0;
+ }
+
+ .data-point {
+   padding: 1% 0;
+ }
+
+ .key {
+   font-weight: bold;
+ }
+
+ .data-point:nth-child(even) {
+   /*background-color: #eeeeee;*/
+   /*color: #bbb;*/
  }
