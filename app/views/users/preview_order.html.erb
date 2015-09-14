@@ -59,8 +59,9 @@
     </div>
   </ul>
 
-  <a href="/users/profile"><input class="trade-form btn btn-primary" type="button" value="Confirm Order"></a>
   <a href="/users/edit"><input class="trade-form btn btn-primary" type="button" value="Edit Order"></a>
+  <a href="/users/profile"><input class="trade-form btn btn-primary" type="button" value="Confirm Order"></a>
+
   <form action="/api/trades/<%= @trade.id %>" method="post">
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <input type="hidden" name="token" value="<%=@user.token%>">
