@@ -60,6 +60,7 @@ class UsersController < ApplicationController
 
   def positions
     @user = current_user
+    render layout: "profile_layout"
   end
 
   def market_research
@@ -67,7 +68,6 @@ class UsersController < ApplicationController
   end
 
   def login
-
   end
 
   def user_params
