@@ -32,4 +32,9 @@
 </nav>
 <div class="container">
   <h2>Positions</h2>
+
+  <span><strong>Cash available to trade:</strong> $<%= sprintf "%.2f", @user.cash %></span>
+  <table class="table table-striped" id="trades-table">
+  </table>
+
 </div>
