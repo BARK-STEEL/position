@@ -66,7 +66,7 @@ app.TradeListView = Backbone.View.extend({
         var symbol1 = $company.data('symbol');
         var symbol2 = '#' + $company.data('symbol');
         $.ajax({
-          url: 'http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol=' + symbol1,
+          url: 'https://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol=' + symbol1,
           method: 'get',
           jsonpCallback: 'jsonCallback' + i,
           dataType: 'jsonp',
