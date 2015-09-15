@@ -16,7 +16,15 @@ class Api::TradeController < ApplicationController
 
     @trade = @current_user.trades.create( trade_params )
     stock_search(@trade[:company_symbol])
-    @trade.update( {share_purchase_price: @last_price} )
+    @trade.update( {
+      share_purchase_price: @last_price,
+      last_price: @last_price,
+      dollar_change: @dollar_change,
+      change_percent: @change_percent,
+      open_price: @open_price,
+      high_price: @high_price,
+      low_price: @low_price
+      } )
     @current_user.update( {cash: @current_user['cash'].to_i-(@last_price.to_i*@trade['number_of_shares'].to_i)} )
     respond_to do |format|
 
