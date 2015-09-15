@@ -37,6 +37,7 @@
 
   <form class="navbar-form create-trade" action="/api/trades" method="post">
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <input type="hidden" name="token" value="<%=@user.token%>"/>
   <div class="trade-form input-group col-xs-4">
     <span class="input-group-addon" id="basic-addon2">Stock</i></span>
     <input id="company-symbol" type="text" class="form-control" name="trade[company_symbol]" placeholder="Enter Company Symbol">
@@ -52,7 +53,6 @@
       <option value="buy">Buy</option>
       <option value="sell">Sell</option>
     </select>
-    <input type="hidden" name="token" value="<%=@user.token%>"/>
   </div>
     <br>
     <div class="trade-form row">

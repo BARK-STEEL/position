@@ -7,17 +7,16 @@ class Api::TradeController < ApplicationController
 
   def index
 
-    render json: @current_user.trades
+    render json: current_user.trades
 
   end
 
   def create
 
-
-    @trade = @current_user.trades.create( trade_params )
+    @trade = current_user.trades.create( trade_params )
     stock_search(@trade[:company_symbol])
     @trade.update( {share_purchase_price: @last_price} )
-    @current_user.update( {cash: @current_user['cash'].to_i-(@last_price.to_i*@trade['number_of_shares'].to_i)} )
+    current_user.update( {cash: current_user['cash'].to_i-(@last_price.to_i*@trade['number_of_shares'].to_i)} )
     respond_to do |format|
 
       format.json { render json: @trade }
@@ -29,19 +28,19 @@ class Api::TradeController < ApplicationController
 
   def show
 
-    render json:  @current_user.trades.find( params[:id] )
+    render json:  current_user.trades.find( params[:id] )
 
   end
 
   def edit
 
-    @trade = @current_user.trades.last
+    @trade = current_user.trades.last
 
   end
 
   def update
 
-    trade = @current_user.trades.find( params[:id] )
+    trade = current_user.trades.find( params[:id] )
     trade.update( params[ trade_params ] )
     respond_to do |format|
       format.json { render json: trade }
@@ -51,10 +50,10 @@ class Api::TradeController < ApplicationController
 
   def destroy
 
-    @current_user.trades.destroy( params[:id] )
+    current_user.trades.destroy( params[:id] )
     respond_to do |format|
 
-      format.json { render json: @current_user.trades }
+      format.json { render json: current_user.trades }
       format.html { redirect_to '/users/profile' }
 
     end
@@ -75,6 +74,8 @@ class Api::TradeController < ApplicationController
     @low_price = response['StockQuote']['Low']
 
   end
+
+
 
   def trade_params
 

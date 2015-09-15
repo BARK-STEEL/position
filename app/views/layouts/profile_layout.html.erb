@@ -6,14 +6,19 @@
   <%= csrf_meta_tags %>
 
   <script type="text/template" id="trade-template">
-    <td data-symbol="<%%=company_symbol%>">
+    <td class='company' data-symbol="<%%=company_symbol%>">
       <%%= company_symbol %>
     </td>
-    <td data-shares="<%%=number_of_shares%>">
+    <td class="shares" data-shares="<%%=number_of_shares%>">
       <%%= number_of_shares %>
     </td>
     <td>
       $<%%= parseFloat(basis).toFixed(2) %>
+    </td>
+    <td class ="current-price" id="<%%= company_symbol %>">
+    </td>
+    <td class="totalValue">
+
     </td>
     <td>
       <button id="buy-button" type='button' class="btn btn-primary btn-lg"  data-toggle="modal" data-target="#buyModal">Buy</button>
@@ -109,7 +114,7 @@
 
 
 <%= javascript_include_tag 'users', 'data-turbolinks-track' => true %>
-<script></script>
+
 
 </body>
 </html>
