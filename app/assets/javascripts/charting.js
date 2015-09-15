@@ -1,4 +1,4 @@
-console.log('Charting Loaded')
+console.log('charting loaded...')
 /**
  * Version 2.0
  */
@@ -154,7 +154,7 @@ Markit.InteractiveChartApi.prototype.render = function(data) {
         }],
 
         series: [{
-            type: 'candlestick',
+            type: 'line',
             name: this.symbol,
             data: ohlc,
             dataGrouping: {
@@ -175,4 +175,31 @@ Markit.InteractiveChartApi.prototype.render = function(data) {
     });
 };
 
-var test = new Markit.InteractiveChartApi('AAPL', 365);
+// function renderChart(stock) {
+//   var $stock = stock;
+//   console.log($stock);
+//
+//   console.log('render chart ran')
+//   // var stock = $('#stock_chart_search').val();
+//   Markit.test = new Markit.InteractiveChartApi($stock, 365);
+// }
+
+
+function changeSymbol(symbol) {
+  Markit.show = new Markit.InteractiveChartApi(symbol, 1000);
+}
+
+function bindSearch(){
+  $('#symbol_search_button').on('click', function(){
+    var newStock = $('#stock_search').val();
+    changeSymbol(newStock);
+  });
+
+};
+
+
+$( document ).ready(function() {
+
+bindSearch();
+
+});

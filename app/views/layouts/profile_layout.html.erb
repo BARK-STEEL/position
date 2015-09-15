@@ -33,6 +33,30 @@
     </td>
 
   </script>
+  <script type="text/javascript">
+  function getStock(stock) {
+    $.ajax({
+      url: 'http://dev.markitondemand.com/Api/v2/Quote/jsonp',
+      data: {'symbol': stock},
+      jsonp: "callback",
+      dataType: "jsonp",
+      success: function(ds){
+        drawHtml(ds);
+      }
+    });
+    return false;
+  }
+  function submitForm() {
+    stock = $('#stock_search').val();
+    getStock(stock);
+    return false;
+  }
+
+  function drawHtml(jsonResult) {
+    $("#results").append("<p>Name: " + jsonResult.Name + "</p> <p>Symbol: " + jsonResult.Symbol + "</p><p>Last Price: " + jsonResult.LastPrice + "</p><p>Change: " + jsonResult.Change + "</p>");
+    return false;
+  }
+</script>
 
 
 

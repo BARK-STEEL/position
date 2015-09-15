@@ -15,7 +15,8 @@
 //= require underscore
 //= require underscore_string
 //= require backbone
-//= require highstock-all
+//= require highstock
+//= require exporting
 //= require app
 //= require charting
 //= require turbolinks
