@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jqueryUi
+//= require jquery_ujs
 //= require underscore
 //= require underscore_string
 //= require backbone
