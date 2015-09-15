@@ -31,8 +31,8 @@ Rails.application.routes.draw do
   get '/users/market_research' => 'users#market_research'
 
 
-  resources :sessions, only: [:destroy, :create]
-
+  post '/sessions' => 'sessions#create'
+  delete '/sessions' => 'sessions#destroy'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

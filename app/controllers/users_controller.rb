@@ -34,10 +34,10 @@ class UsersController < ApplicationController
     end
 
   end
-# users_profile GET  /users/profile(.:format) users#profile
+
   def profile
 
-    authorize!
+    return nil if !authenticate!
     @user = current_user
     @trade = @user.trades.new
     render layout: "profile_layout"
@@ -46,16 +46,18 @@ class UsersController < ApplicationController
 
   def stock_lookup
     @user = current_user
-
+    render layout: "profile_layout"
   end
 
   def trade
     @user = current_user
+    render layout: "profile_layout"
   end
 
   def preview_order
     @user = current_user
     @trade = @user.trades.last
+    render layout: "profile_layout"
   end
 
   def positions
@@ -65,6 +67,7 @@ class UsersController < ApplicationController
 
   def market_research
     @user = current_user
+    render layout: "profile_layout"
   end
 
   def login
