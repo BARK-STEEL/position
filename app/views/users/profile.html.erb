@@ -1,5 +1,6 @@
 <input type="hidden" id="api-token" value="<%= @user.token %>">
 
+<% if current_user %>
 <header id="header2" class="row">
   <h2 id="logo" class="col-xs-10">Position</h2>
     <span role="presentation" class=" dropdown navbar-text">
@@ -15,7 +16,7 @@
 <nav class="navbar navbar-default">
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="/users/profile">My Profile <span class="sr-only">(current)</span></a></li>
+          <li><a href="/users/profile">My Profile <span class="sr-only">(current)</span></a></li>
           <li><a href="/users/stock_lookup">Stock Lookup</a></li>
           <li><a href="/users/trade">Trade</a></li>
           <li><a href="/users/positions">Positions</a></li>
@@ -29,9 +30,13 @@
             </div>
           </form>
         </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+      </div>
+    </div>
 </nav>
+
+
+<% end %>
+
 <div class="container">
 <h2>Welcome, <%= @user.username %></h2>
 
@@ -48,8 +53,8 @@
 <table class="table table-striped" id="trades-table">
 </table> -->
 
-<input type="text" class="stock-input" placeholder="entersybmol">
-<input type="button" id="jsonpbtn" value="">
+<!-- <input type="text" class="stock-input" placeholder="entersybmol">
+<input type="button" id="jsonpbtn" value=""> -->
 
 <!-- <h1>New Trade</h1>
 
@@ -75,3 +80,12 @@
 
 
 </div>
+<script type="text/javascript">
+$(document).ready(function(){
+  var url = window.location;
+  $('ul.nav a[href="'+ url +'"]').parent().addClass('active');
+  $('ul.nav a').filter(function() {
+      return this.href == url;
+  }).parent().addClass('active');
+});
+</script>

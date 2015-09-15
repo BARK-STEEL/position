@@ -114,3 +114,7 @@
    top: 65%;
    left: 65%;
  }
+
+ .thing {
+   display: inline;
+ }
