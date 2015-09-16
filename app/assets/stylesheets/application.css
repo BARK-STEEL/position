@@ -140,6 +140,10 @@
    /*color: #bbb;*/
  }
 
+ .data-point {
+   margin-left: 10%;
+ }
+
  #stats {
    margin: 7% 0 0 0;
    /*line-height: 2.5em;*/
@@ -154,3 +158,13 @@
  .thing {
    display: inline;
  }
+
+#chartDemoContainer {
+  height: 65%;
+  width: 90%;
+  margin-left: -5%;
+}
+
+.stock-lookup{
+  /*padding-left: 3%;*/
+}
