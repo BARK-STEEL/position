@@ -104,7 +104,7 @@ $(document).on('click', '#sell-button', function(e){
 });
 function getStock(stock) {
       $.ajax({
-        url: 'http://dev.markitondemand.com/Api/v2/Quote/jsonp',
+        url: '//dev.markitondemand.com/Api/v2/Quote/jsonp',
         data: {'symbol': stock},
         jsonp: "callback",
         dataType: "jsonp",
@@ -190,7 +190,7 @@ function addPrices(){
       var symbol1 = $company.data('symbol');
       var symbol2 = '#' + $company.data('symbol');
       $.ajax({
-        url: 'http://dev.markitondemand.com/Api/v2/Quote/jsonp',
+        url: '//dev.markitondemand.com/Api/v2/Quote/jsonp',
         data: {'symbol': symbol1},
         jsonp: "callback",
         dataType: "jsonp",
