@@ -22,16 +22,16 @@
           <ul class="nav navbar-nav">
             <li><a href="/users/profile">My Profile <span class="sr-only">(current)</span></a></li>
             <li><a href="/users/stock_lookup">Stock Lookup</a></li>
-            <li><a href="/users/trade">Trade</a></li>
             <li><a href="/users/positions">Positions</a></li>
             <li><a href="/users/market_research">Market Research</a></li>
             <li><a href="/users/index">Leaderboard</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <form class="navbar-form navbar-left" role="search">
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search Stock" aria-describedby="basic-addon2">
-                <span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-search"></i></span>
+            <div class="input-group">
+
+            <form class="navbar-form navbar-left" role="search" action="/users/stock_lookup" method="get">
+                <input type="text" class="form-control nav-search" name="search" placeholder="Search Stock" aria-describedby="basic-addon2">
+                <button type="submit"><i class="glyphicon glyphicon-search"></i></button>
               </div>
             </form>
           </ul>
@@ -89,11 +89,19 @@
   function submitForm() {
     stock = $('#stock_search').val();
     findStock(stock);
+    changeSymbol(stock);
+    return false;
+  }
+
+  function searchStock() {
+    searchVal = $('.nav-search').val();
+    findStock(searchVal);
     return false;
   }
 
   function renderCompanyInfo(jsonResult) {
     $('#results').html("");
+
     $("#results").append(
     '<div class="row stock-lookup">' +
     '<div class="col-xs-6">' +

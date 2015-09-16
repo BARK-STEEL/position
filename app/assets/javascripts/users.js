@@ -18,8 +18,8 @@
 //= require backbone
 //= require highstock
 //= require exporting
-//= require app
 //= require charting
+//= require app
 //= require turbolinks
 //= require bootstrap.min
 
