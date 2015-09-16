@@ -3,7 +3,7 @@
 <div class="container">
   <h2>Positions</h2>
 
-  <span><strong>Cash available to trade:</strong> $<%= sprintf "%.2f", @user.cash %></span>
+  <span><strong>Cash available to trade:</strong> $<span id="cash"><%= sprintf "%.2f", @user.cash %></span></span>
   <table class="table table-striped" id="trades-table">
   </table>
 
@@ -24,7 +24,10 @@
       </div><br>
       <div class="trade-form input-group col-xs-4">
         <span class="input-group-addon" id="basic-addon2">Quantity</i></span>
-        <input class="numShares"  class="form-control required" type="number" name="trade[number_of_shares]" value="" >
+        <input class="numShares"  data-shares="" class="form-control required" type="number" name="trade[number_of_shares]" value="" >
+      </div>
+      <div>
+        <span></span>
       </div><br>
       <div class="trade-form input-group col-xs-4">
       <span class="input-group-addon" id="basic-addon2">Price: $</span>
@@ -53,11 +56,11 @@
       <div class="trade-form input-group col-xs-4">
         <span class="input-group-addon" id="basic-addon2">Stock</i></span>
         <span class="coSymb"></span>
-        <input type="hidden" id="buy-symbol form-control" name="trade[company_symbol]" value="">
+        <input type="hidden" class="buy-symbol form-control" name="trade[company_symbol]" value="">
       </div><br>
       <div class="trade-form input-group col-xs-4">
         <span class="input-group-addon" id="basic-addon2">Quantity</i></span>
-        <input class="numShares"  class="form-control required" type="number" name="trade[number_of_shares]" value="" >
+        <input class="numShares" data-shares="" class="form-control required" type="number" name="trade[number_of_shares]" value="" >
       </div><br>
       <div class="trade-form input-group col-xs-4">
       <span class="input-group-addon" id="basic-addon2">Price: $</span>
@@ -89,7 +92,7 @@
         <input id="buy-company-symbol" type="hidden" class="buy-symbol form-control" name="trade[company_symbol]" value="">
       </div><br>
       <div class="trade-form input-group col-xs-4">
-      <span>Price: $</span>
+      <span>Price: </span>
       <b><span id="previewstockPrice"></span></b>
       </div><br>
       <div class="trade-form input-group col-xs-4">
@@ -105,7 +108,7 @@
         <span>Commission: </i></span><b><span>$7.95</span></b>
       </div><br><br>
       <div>
-      <span>Est. Order Value: $</i></span><b><span id="preview-order-value"></span></b>
+      <span>Est. Order Value: </i></span><b><span id="preview-order-value"></span></b>
       </div>
       <div class="modal-footer">
       <button type="button" class="btn btn-primary" data-dismiss="modal">Edit Trade</button>
