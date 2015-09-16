@@ -6,6 +6,7 @@ class UsersController < ApplicationController
 # users GET  /users(.:format)         users#index
   def index
     @user = current_user
+
     @users = User.all
     render layout: "profile_layout"
   end
@@ -133,7 +134,9 @@ def update_user_performance(user)
 
 end
 
-
+def get_top_movers()
+response = HTTParty.get("https://api.tradeking.com/v1/market/toplists/topvolume.xml")
+end
 
 
 end
