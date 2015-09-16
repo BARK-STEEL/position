@@ -97,8 +97,8 @@
     '<div class="row stock-lookup">' +
     '<div class="col-xs-6">' +
     '<h2>' + jsonResult.Name  + '</h2>' +
-    '<button type="button" class="btn btn-primary">Buy</button> ' +
-    ' <button type="button" class="btn btn-primary">Sell</button>' +
+    '<button id="buy-button" type="button" class="btn btn-primary btn-lg"   data-toggle="modal" data-target="#buyModal">Buy</button>' +
+    '<button id="sell-button" class="sell-button btn btn-primary btn-lg" data-symbol="' + jsonResult.Symbol + '" data-shares="<%%=number_of_shares%>" data-toggle="modal" data-target="#sellModal">Sell</button>' +
     '<span> Trading Symbol: ' + jsonResult.Symbol + '</span>' +
     '<h4><strong>Last: $' + jsonResult.LastPrice.toFixed(2) + '</strong></h4><h5>Day\'s Change: $' + jsonResult.Change.toFixed(2) + ' ( ' + jsonResult.ChangePercent.toFixed(2) + '% ) </h5><br>' +
     '<div class="data-point">' +
