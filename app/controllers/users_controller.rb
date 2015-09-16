@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
 
+
   include SessionsHelper
 
 # users GET  /users(.:format)         users#index
@@ -36,7 +37,6 @@ class UsersController < ApplicationController
   end
 
   def profile
-
     return nil if !authenticate!
     @user = current_user
     @trade = @user.trades.new
@@ -51,7 +51,6 @@ class UsersController < ApplicationController
 
   def trade
     @user = current_user
-    render layout: "profile_layout"
   end
 
   def preview_order

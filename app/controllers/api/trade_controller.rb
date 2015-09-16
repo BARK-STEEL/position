@@ -1,5 +1,7 @@
 class Api::TradeController < ApplicationController
 
+  respond_to :html, :json
+
   include Api::TradesHelper
   include SessionsHelper
 
@@ -24,14 +26,14 @@ class Api::TradeController < ApplicationController
       high_price: @high_price,
       low_price: @low_price
       } )
-    @current_user.update( {cash: @current_user['cash'].to_i-(@last_price.to_i*@trade['number_of_shares'].to_i)} )
+    current_user.update( {cash: current_user['cash'].to_i-(@last_price.to_i*@trade['number_of_shares'].to_i)} )
+
     respond_to do |format|
 
       format.json { render json: @trade }
       format.html { redirect_to '/users/preview_order' }
 
     end
-
   end
 
   def show
@@ -51,8 +53,10 @@ class Api::TradeController < ApplicationController
     trade = current_user.trades.find( params[:id] )
     trade.update( params[ trade_params ] )
     respond_to do |format|
+
       format.json { render json: trade }
       format.html { redirect_to profile_path }
+
     end
   end
 
@@ -87,7 +91,7 @@ class Api::TradeController < ApplicationController
 
   def trade_params
 
-    params.require(:trade).permit(:company_symbol, :number_of_shares, :trade_type)
+    params.require(:trade).permit(:company_symbol, :number_of_shares, :trade_type, :share_purchase_price)
 
   end
 

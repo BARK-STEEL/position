@@ -34,6 +34,8 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'httparty'
 
+gem 'responders'
+
 group :production do
 
   gem 'rails_12factor'
