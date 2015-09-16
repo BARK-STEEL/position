@@ -29,6 +29,8 @@ Rails.application.routes.draw do
   get '/users/preview_order' => 'users#preview_order'
   get '/users/positions' => 'users#positions'
   get '/users/market_research' => 'users#market_research'
+  get '/users/index' => 'users#index'
+
 
 
   post '/sessions' => 'sessions#create'
