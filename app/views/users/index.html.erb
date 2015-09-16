@@ -1,0 +1,117 @@
+
+<div class="container">
+  <h2>Leaderboard</h2>
+  <br><br>
+
+
+  <table class="table table-hover">
+    <th>
+      Username
+    </th>
+    <th>
+      Net Worth
+    </th>
+    <th>
+      Day's Gain
+    </th>
+    <th>
+      Percent Gain
+    </th>
+    <% @users.each do |user| %>
+    <% percent_gain = (user.days_gain.to_f() / user.net_worth.to_f()) %>
+
+    <% if (percent_gain > 0.5) %>
+    <tr class="success">
+    <td>
+      <%= user.username %>
+    </td>
+    <td>
+      $ <%= '%.2f' % user.net_worth %>
+    </td>
+    <td>
+      $ <%= '%.2f' % user.days_gain %>
+    </td>
+    <td>
+      <%= '%.2f' % percent_gain %>%
+    </td>
+
+    </tr>
+
+    <% elsif (percent_gain > 0.25) %>
+    <tr class="info">
+    <td>
+      <%= user.username %>
+    </td>
+    <td>
+      $ <%= '%.2f' % user.net_worth %>
+    </td>
+    <td>
+      $ <%= '%.2f' % user.days_gain %>
+    </td>
+    <td>
+      <%= '%.2f' % percent_gain %>%
+    </td>
+
+    </tr>
+
+    <% elsif (percent_gain < 0) %>
+    <tr class="warning">
+    <td>
+      <%= user.username %>
+    </td>
+    <td>
+      $ <%= '%.2f' % user.net_worth %>
+    </td>
+    <td>
+      $ <%= '%.2f' % user.days_gain %>
+    </td>
+    <td>
+      <%= '%.2f' % percent_gain %>%
+    </td>
+
+    </tr>
+
+    <% elsif (percent_gain < -0.5) %>
+    <tr class="danger">
+    <td>
+      <%= user.username %>
+    </td>
+    <td>
+      $ <%= '%.2f' % user.net_worth %>
+    </td>
+    <td>
+      $ <%= '%.2f' % user.days_gain %>
+    </td>
+    <td>
+      <%= '%.2f' % percent_gain %>%
+    </td>
+
+    </tr>
+
+    <% else %>
+    <tr class="active">
+    <td>
+      <%= user.username %>
+    </td>
+    <td>
+      $ <%= '%.2f' % user.net_worth %>
+    </td>
+    <td>
+      $ <%= '%.2f' % user.days_gain %>
+    </td>
+    <td>
+      <%= '%.2f' % percent_gain %>%
+    </td>
+
+    </tr>
+    <% end %>
+
+
+    <% end %>
+
+  </table>
+
+
+
+
+</div>

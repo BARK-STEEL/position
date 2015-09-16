@@ -42,15 +42,36 @@
    background-size: cover;
  }
 
- .pitch {
-   text-align: center;
-   /*color: white;*/
+ .carousel-inner {
+   width: 500px;
  }
 
- .pitch-glyph {
-   font-size: 3em;
-   margin: 15% 0 3% 0;
-   /*color: white;*/
+ .item {
+   height: 400px;
+   background-color: black;
+ }
+
+ #item1 {
+   background-image: url('kidoncomputer2.png');
+   width: 100%;
+ }
+
+ #item2 {
+   background-image: url('chart2.png');
+   width: 100%;
+ }
+
+ #item3 {
+   background-image: url('girl2.png');
+ }
+
+ .pitch {
+   color: #2abcf5;
+ }
+
+ .carousel-caption {
+   /*background-color: rgba(0, 0, 0, 0.5);*/
+   text-shadow: 2px 2px 2px #000;
  }
 
  .container {
@@ -77,13 +98,28 @@
    text-align: center;
  }
 
- form.navbar-form {
+ form.form {
    margin: 3% 0 0 0;
  }
 
  .trade-form {
    margin: 10px 0;
    line-height: 2.5em;
+ }
+
+ .register-form {
+   margin: 10px 0;
+   line-height: 2.5em;
+ }
+
+ .login-form {
+   margin: 10px 0;
+   line-height: 2.5em;
+ }
+
+ .text-field {
+   border-radius: 5px;
+   height: 30px;
  }
 
  .preview-order {
@@ -104,6 +140,10 @@
    /*color: #bbb;*/
  }
 
+ .data-point {
+   margin-left: 10%;
+ }
+
  #stats {
    margin: 7% 0 0 0;
    /*line-height: 2.5em;*/
@@ -118,3 +158,13 @@
  .thing {
    display: inline;
  }
+
+#chartDemoContainer {
+  height: 65%;
+  width: 90%;
+  margin-left: -5%;
+}
+
+.stock-lookup{
+  /*padding-left: 3%;*/
+}
