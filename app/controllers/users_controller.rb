@@ -50,7 +50,7 @@ class UsersController < ApplicationController
     @net_worth = get_net_worth(@user)
     @days_gain = get_days_gain(@user)
 
-    @user.update( {
+    @user.update({
       net_worth: @net_worth,
       days_gain: @days_gain
       })
@@ -115,6 +115,7 @@ def get_net_worth(user)
 
   user.trades.each do |trade|
     stock_search(trade.company_symbol)
+    puts @last_price
     value_added = @last_price.to_f() * trade.number_of_shares
     @net_worth += value_added
   end
