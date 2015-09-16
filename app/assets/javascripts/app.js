@@ -175,6 +175,10 @@ $('form.create-trade').on('submit', function(e){
   $('#ConfirmModal').modal('show');
 });
 
+
+
+
+
 function addPrices(){
   var companies = $('.company');
   var price = $('.current-price');
@@ -203,4 +207,7 @@ $(window).load(function(){
   setTimeout(function(){
     addPrices();
   },1000);
+
+  $('#stock_lookup_form').submit();
+
 });

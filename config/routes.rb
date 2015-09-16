@@ -24,12 +24,13 @@ Rails.application.routes.draw do
   post '/users' => 'users#create'
   get '/users/profile' => 'users#profile', as: :profile
   get '/users/login' => 'users#login', as: :log_in
-  get '/users/stock_lookup' => 'users#stock_lookup'
+  get '/users/stock_lookup' => 'users#stock_lookup', as: :look_up
   get '/users/trade' => 'users#trade'
   get '/users/preview_order' => 'users#preview_order'
   get '/users/positions' => 'users#positions'
   get '/users/market_research' => 'users#market_research'
   get '/users/index' => 'users#index'
+  get '/users/search_bar' => 'users#search_bar'
 
 
 

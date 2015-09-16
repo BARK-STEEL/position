@@ -1,8 +1,8 @@
 <div class="container">
 
   <h2>Stock Lookup</h2>
-  <form action="" onsubmit="return submitForm()">
-    <input name="stock" type="text" id="stock_search" placeholder="enter stock symbol" />
+  <form action="" onsubmit="return submitForm()" id="stock_lookup_form">
+    <input name="stock" type="text" id="stock_search" placeholder="enter stock symbol" value="<%= @search_term %>"/>
     <input type="submit" id="symbol_search_button" value="find stock">
   </form>
 
