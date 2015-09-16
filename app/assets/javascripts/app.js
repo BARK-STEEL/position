@@ -39,7 +39,6 @@ app.TradeView = Backbone.View.extend({
 app.TradeListView = Backbone.View.extend({
   initialize: function(){
     this.listenTo( this.collection, 'add', this.render );
-    this.addPrices();
   },
   render: function(){
     this.$el.empty();
@@ -56,24 +55,6 @@ app.TradeListView = Backbone.View.extend({
     }
     this.$el.append('<tr><td><b>Total:</b></td>' + '<td>' + data[1][0] + '</td>' + '<td>$' + data[1][1] + '</td><td></td><td></td></tr>');
   },
-  addPrices: function(){
-    var companies = $('.company');
-    for (var i = 0; i < companies.length; i++){
-      (function (i){
-        $company = $(companies[i]);
-        var symbol1 = $company.data('symbol');
-        var symbol2 = '#' + $company.data('symbol');
-        $.ajax({
-          url: 'http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol=' + symbol1,
-          method: 'get',
-          jsonpCallback: 'jsonCallback' + i,
-          dataType: 'jsonp',
-        }).done(function(json){
-          $(symbol2).append(json.LastPrice);
-        });
-      })(i);
-    }
-  },
   events: {
     'load window': 'addPrices'
   }
@@ -88,6 +69,64 @@ app.tradePainter = new app.TradeListView({
 
 app.trades.fetch();
 
+$(document).on('click', '.preview_order', function(e){
+  $this = $(this);
+  var numShares = $this.parent().parent().find('.numShares');
+  if ( numShares.val() ==="" ) {
+    numShares.css('border','1px solid red');
+  } else {
+    $this = $(this);
+    numShares.css('border', '1px solid black');
+    console.log('shares:' + numShares.val());
+    $('#previewNumShares').html(numShares.val());
+    $('#preview-number-of-shares').val(numShares.val());
+    var price = $('#previewstockPrice').html();
+    var order = ((numShares.val()*price)+7.95).toFixed(2);
+    $('#preview-order-value').html(order);
+    var tradeType = $this.parent().prev().prev().children().first().val();
+    $('#preview-trade-type').val(tradeType);
+    $('#previewTradeType').html(tradeType.charAt(0).toUpperCase() + tradeType.substring(1));
+    $('#PreviewModal').modal('show');
+  }
+});
+
+$(document).on('click', '#buy-button', function(e){
+    $this = $(this);
+    var stock = $this.data('symbol');
+    $('.buy-symbol').val(stock);
+    getStock(stock);
+});
+$(document).on('click', '#sell-button', function(e){
+    $this = $(this);
+    var stock = $this.data('symbol');
+    $('.buy-symbol').val(stock);
+    getStock(stock);
+});
+function getStock(stock) {
+      $.ajax({
+        url: 'http://dev.markitondemand.com/Api/v2/Quote/jsonp',
+        data: {'symbol': stock},
+        jsonp: "callback",
+        dataType: "jsonp",
+        success: function(ds){
+          drawHtml(ds);
+        }
+      });
+      return false;
+}
+function drawHtml(jsonResult) {
+    console.log('draw');
+      $('.stockPrice').html(jsonResult.LastPrice);
+      $('#previewstockPrice').html(jsonResult.LastPrice);
+
+      $('.coSymbol').html(jsonResult.Symbol);
+      $('.coSymb').html(jsonResult.Symbol);
+
+      // $('#numShares').html($('#modalNumShares').val());
+      $('.buy-company-symbol').val(jsonResult.Symbol);
+      // $('#number-of-shares').val($('#modalNumShares').val());
+      return false;
+}
 
 function companyData() {
 
@@ -95,13 +134,23 @@ function companyData() {
   var totals = {'total_portfolio_shares':0, 'total_portfolio_basis':0};
   var indTrades = app.trades.models;
   for (var i = 0; i < indTrades.length; i++){
-    totals.total_portfolio_shares += indTrades[i].attributes.number_of_shares;
-    totals.total_portfolio_basis+=(indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price);
-    if (companyTotals[indTrades[i].attributes.company_symbol]){
-      companyTotals[indTrades[i].attributes.company_symbol][0] += indTrades[i].attributes.number_of_shares;
-      companyTotals[indTrades[i].attributes.company_symbol][1] += (indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price);
+    if (indTrades[i].attributes.trade_type === 'buy'){
+      totals.total_portfolio_shares += indTrades[i].attributes.number_of_shares;
+      totals.total_portfolio_basis+=(indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price);
     } else {
-      companyTotals[indTrades[i].attributes.company_symbol] = [indTrades[i].attributes.number_of_shares, (indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price)] ;
+      totals.total_portfolio_shares -= indTrades[i].attributes.number_of_shares;
+    }
+    if (companyTotals[indTrades[i].attributes.company_symbol]){
+      if (indTrades[i].attributes.trade_type === 'buy'){
+        companyTotals[indTrades[i].attributes.company_symbol][0] += indTrades[i].attributes.number_of_shares;
+        companyTotals[indTrades[i].attributes.company_symbol][1] += (indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price);
+      } else {
+        companyTotals[indTrades[i].attributes.company_symbol][0] -= indTrades[i].attributes.number_of_shares;
+      }
+    } else {
+      if (indTrades[i].attributes.trade_type === 'buy'){
+        companyTotals[indTrades[i].attributes.company_symbol] = [indTrades[i].attributes.number_of_shares, (indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price)] ;
+      }
     }
   }
   companyArray = [];
@@ -116,82 +165,16 @@ function companyData() {
 
 $('form.create-trade').on('submit', function(e){
   e.preventDefault();
-  var newCompanySymbol = $("#company-symbol").val();
-  var newNumberOfShares = $("#number-of-shares").val();
-  var newTradeType = $("#trade-type").val();
+  var newCompanySymbol = $("#buy-company-symbol").val();
+  var newNumberOfShares = $("#preview-number-of-shares").val();
+  var newTradeType = $("#preview-trade-type").val();
   app.trades.create({company_symbol: newCompanySymbol, number_of_shares: newNumberOfShares, trade_type: newTradeType});
+  $('#PreviewModal').modal('hide');
+  $('#buyModal').modal('hide');
+  $('#sellModal').modal('hide');
+  $('#ConfirmModal').modal('show');
 });
 
-$(document).on('click', '.sell-button', function(e){
-    $this = $(this);
-    $('#company-symbol').val($this.data('symbol'));
-});
-
-
-// Stock Backbone Models/Views
-
-app.Stock = Backbone.Model.extend({
-    initialize: function(options)   {
-      if (options.stock_symbol)
-      this.stock_symbol = options.stock_symbol;
-        },
-    url: function()
-    {
-        return "https://dev.markitondemand.com/Api/v2/Quote?symbol="+this.stock_symbol;
-    },
-});
-
-app.StockCollection = Backbone.Collection.extend({
-  initialize: function(options)   {
-    if (options.stock_symbol)
-    this.stock_symbol = options.stock_symbol;
-      },
-    url: function()
-    {
-      return "https://dev.markitondemand.com/Api/v2/Quote?symbol="+this.stock_symbol;
-    },
-  // model: app.Stock,
-  // url: "http://dev.markitondemand.com/Api/v2/Quote?symbol="+this.stock_symbol
-});
-
-
-
-app.StockView = Backbone.View.extend({
-  tagName: 'tr',
-  className: 'stock',
-  template: _.template( $('#stock-template').html() ),
-  initialize: function(options) {
-
-       if (options.model)
-           this.model = options.model;
-   },
-  render: function(){
-    this.$el.empty();
-    var html = this.template( this.model.toJSON() );
-    var $html = $( html );
-    this.$el.append( $html );
-  },
-  events: {
-        'click button' : 'getstocks'
-    },
-  getstocks: function() {
-
-          var stockSymbol = $('.stock-input').val();
-          var stocks = new app.StockCollection({stock_symbol: stockSymbol});
-
-          stocks.fetch();
-      }
-});
-
-// $(document).ready(function(){
-//   setTimeout(function(){
-//     addPrices();
-//     console.log('hi');
-//   }, 100);
-// });
-//
-// var test = new app.StockCollection({stock_symbol: 'AAPL'});
-// var testView = new app.StockView({model: test});
 function addPrices(){
   var companies = $('.company');
   var price = $('.current-price');
@@ -203,13 +186,14 @@ function addPrices(){
       var symbol1 = $company.data('symbol');
       var symbol2 = '#' + $company.data('symbol');
       $.ajax({
-        url: 'https://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol=' + symbol1,
-        method: 'get',
-        jsonpCallback: 'jsonCallback' + i,
-        dataType: 'jsonp',
-      }).done(function(json){
-        $(symbol2).append(json.LastPrice);
-        value[i].textContent = '$' + parseInt(price[i].textContent)*parseInt(shares[i].textContent);
+        url: 'http://dev.markitondemand.com/Api/v2/Quote/jsonp',
+        data: {'symbol': symbol1},
+        jsonp: "callback",
+        dataType: "jsonp",
+        success: function(ds){
+          $(symbol2).append(ds.LastPrice);
+          value[i].textContent = '$' + parseInt(price[i].textContent)*parseInt(shares[i].textContent);
+        }
       });
     })(i);
   }
@@ -218,5 +202,5 @@ function addPrices(){
 $(window).load(function(){
   setTimeout(function(){
     addPrices();
-  },1);
+  },1000);
 });

@@ -55,10 +55,11 @@
 
     </td>
     <td>
-      <button id="buy-button" type='button' class="btn btn-primary btn-lg"  data-toggle="modal" data-target="#buyModal">Buy</button>
+      <button id="buy-button" type='button' class="btn btn-primary btn-lg"
+      data-symbol="<%%=company_symbol%>" data-toggle="modal" data-target="#buyModal">Buy</button>
     </td>
     <td>
-      <button id="sell-button" class="sell-button btn btn-primary btn-lg"
+      <button id="sell-button" type='button' class="btn btn-primary btn-lg"
       data-symbol="<%%=company_symbol%>" data-shares="<%%=number_of_shares%>" data-toggle="modal" data-target="#sellModal">Sell</button>
     </td>
 
@@ -124,72 +125,6 @@
 <body>
 
 <%= yield %>
-
-<div id="sellModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Sell</h4>
-      </div>
-      <form class="navbar-form create-trade" action="/api/trades" method="post">
-        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-      <div class="trade-form input-group col-xs-4">
-        <span class="input-group-addon" id="basic-addon2">Stock</i></span>
-        <input id="company-symbol" type="text" class="form-control" name="trade[company_symbol]" value="">
-      </div><br>
-      <div class="trade-form input-group col-xs-4">
-        <span class="input-group-addon" id="basic-addon2">Quantity</i></span>
-        <input id="number-of-shares" class="form-control" type="number" name="trade[number_of_shares]" placeholder="Enter Number of Shares">
-      </div><br>
-      <div class="trade-form input-group">
-        <input type="hidden" name="trade[trade_type]" value="sell">
-        <input type="hidden" name="token" value="<%=@user.token%>"/>
-      </div>
-        <br>
-        <!-- <input class="trade-form btn btn-primary" type="submit" value="Preview Order"></a> -->
-      </form>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Preview Order</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="buyModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Buy</h4>
-      </div>
-      <form class="navbar-form create-trade" action="/api/trades" method="post">
-        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-      <div class="trade-form input-group col-xs-4">
-        <span class="input-group-addon" id="basic-addon2">Stock</i></span>
-        <input id="company-symbol" type="text" class="form-control" name="trade[company_symbol]" placeholder="Enter Company Symbol">
-      </div><br>
-      <div class="trade-form input-group col-xs-4">
-        <span class="input-group-addon" id="basic-addon2">Quantity</i></span>
-        <input id="number-of-shares" class="form-control" type="number" name="trade[number_of_shares]" placeholder="Enter Number of Shares">
-      </div><br>
-      <div class="trade-form input-group">
-        <input type="hidden" name="trade[trade_type]" value="buy">
-        <input type="hidden" name="token" value="<%=@user.token%>"/>
-      </div>
-        <br>
-        <!-- <input class="trade-form btn btn-primary" type="submit" value="Preview Order"></a> -->
-      </form>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Preview Order</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 
 
 <%= javascript_include_tag 'users', 'data-turbolinks-track' => true %>
