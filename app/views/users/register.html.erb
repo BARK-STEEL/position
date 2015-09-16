@@ -15,9 +15,40 @@
 <h2>Please Register</h2>
 
 <%= form_for @user do |f| %>
+<form class="form register-form" action="/users" method="post">
+  <div class="register-form input-group col-xs-4">
+    <span class="input-group-addon">Username</span>
+    <input type="text" class="form-control" name="user[username]" placeholder=" ">
+  </div>
+  <div class="register-form input-group col-xs-4">
+    <span class="input-group-addon">Password</span>
+    <input type="password" class="form-control" name="user[password]" placeholder=" ">
+  </div>
+  <div class="register-form input-group col-xs-4">
+    <span class="input-group-addon">Confirm Password</span>
+    <input type="password" class="form-control" name="user[password_confirmation]" placeholder=" ">
+  </div>
+  <div class="register-form input-group col-xs-4">
+    <span class="input-group-addon">Email</span>
+    <input type="text" class="form-control" name="user[email]" placeholder=" ">
+  </div>
+  <div class="register-form input-group col-xs-4">
+    <span class="input-group-addon">Phone</span>
+    <input type="text" class="form-control" name="user[phone]" placeholder=" ">
+  </div>
+  <div class="register-form input-group col-xs-4">
+    <span class="input-group-addon">Profile Image</span>
+    <input type="url_field" class="form-control" name="user[profile_image]" placeholder=" ">
+  </div>
+  <input type="hidden" name="user[cash]" value="5000">
+  <a href="#"><input class="btn btn-primary" type="submit" value="Register"></a>
+</form>
+<% end %>
 
-  <%= f.label :username %>
-  <%= f.text_field :username %>
+<!-- <%= form_for @user do |f| %>
+
+  <%= f.label :username, :class => 'input-group-addon' %>
+  <%= f.text_field :username, :class =>'form-control' %>
   <%= f.label :password %>
   <%= f.password_field :password %>
   <%= f.label :password_confirmation %>
@@ -31,7 +62,7 @@
   <%= f.hidden_field :cash, :value => 5000 %>
   <%= f.submit 'Register'%>
 
-<% end %>
+<% end %> -->
 
 <%= link_to 'Already signed up? Log in here', log_in_path %>
 </div>
