@@ -4,7 +4,20 @@
 <div class="container">
 <h2>Please Log In</h2>
 
-<%= form_tag '/sessions', method: :post do %>
+<form class="form login-form" action="/sessions" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <div class="login-form input-group col-xs-4">
+    <span class="input-group-addon">Username</span>
+    <input type="text" class="form-control" name="username" placeholder=" ">
+  </div>
+  <div class="login-form input-group col-xs-4">
+    <span class="input-group-addon">Password</span>
+    <input type="password" class="form-control" name="password" placeholder=" ">
+  </div>
+  <input class="btn btn-primary" type="submit" value="Login">
+</form>
+
+<!-- <%= form_tag '/sessions', method: :post do %>
 
   <%= label_tag :username %>
   <%= text_field_tag :username %>
@@ -12,7 +25,7 @@
   <%= password_field_tag :password %>
   <%= submit_tag 'Log In' %>
 
-<% end %>
+<% end %> -->
 
 <%= link_to 'Need to sign up? Register here', register_path, method: :get %>
 </div>
