@@ -6,6 +6,7 @@ class UsersController < ApplicationController
 # users GET  /users(.:format)         users#index
   def index
     @user = current_user
+
     @users = User.all
     render layout: "profile_layout"
   end
@@ -19,13 +20,8 @@ class UsersController < ApplicationController
   def create
 
     @user = User.new(user_params)
-    @net_worth = get_net_worth(@user)
-    @days_gain = get_days_gain(@user)
 
-    @user.update( {
-      net_worth: @net_worth,
-      days_gain: @days_gain
-      })
+    update_user_performance(@user)
 
     if @user.save
 
@@ -47,13 +43,8 @@ class UsersController < ApplicationController
   def profile
     return nil if !authenticate!
     @user = current_user
-    @net_worth = get_net_worth(@user)
-    @days_gain = get_days_gain(@user)
+    update_user_performance(@user)
 
-    @user.update({
-      net_worth: @net_worth,
-      days_gain: @days_gain
-      })
 
     @trade = @user.trades.new
     render layout: "profile_layout"
@@ -62,6 +53,7 @@ class UsersController < ApplicationController
 
   def stock_lookup
     @user = current_user
+    @search_term = params[:search]
     render layout: "profile_layout"
   end
 
@@ -88,6 +80,11 @@ class UsersController < ApplicationController
   def login
   end
 
+  def search_bar
+    @user = current_user
+
+  end
+
   def user_params
 
     params.require( :user ).permit( :username, :email, :password, :phone, :profile_image, :cash )
@@ -97,6 +94,8 @@ class UsersController < ApplicationController
   def stock_search( symbol )
 
     response = HTTParty.get("http://dev.markitondemand.com/Api/v2/Quote?symbol=#{symbol}")
+
+    if (response != nil)
     @company_name = response['StockQuote']['Name']
     @last_price = response['StockQuote']['LastPrice']
     @dollar_change = response['StockQuote']['Change']
@@ -104,35 +103,39 @@ class UsersController < ApplicationController
     @open_price = response['StockQuote']['Open']
     @high_price = response['StockQuote']['High']
     @low_price = response['StockQuote']['Low']
+    else
+      puts '******************'
+      puts 'No RESPONSE RECEIVED'
+    end
 
   end
 
 
-
-
-def get_net_worth(user)
-  @net_worth = user.cash;
+def update_user_performance(user)
+  @net_worth = user.cash
+  @days_gain = 0
 
   user.trades.each do |trade|
-    stock_search(trade.company_symbol)
-    puts @last_price
-    value_added = @last_price.to_f() * trade.number_of_shares
-    @net_worth += value_added
-  end
+  stock_search(trade.company_symbol)
 
-  return @net_worth
+  value_added = @last_price.to_f() * trade.number_of_shares
+  @net_worth += value_added
+
+  @days_gain += ((@last_price.to_f() - trade.share_purchase_price) * trade.number_of_shares)
+
+  end
+  @net_worth = '%.2f' % @net_worth
+  @days_gain = '%.2f' % @days_gain
+
+  user.update({
+    net_worth: @net_worth,
+    days_gain: @days_gain
+    })
+
 end
 
-def get_days_gain(user)
-  @days_gain = 0;
-
-  user.trades.each do |trade|
-    stock_search(trade.company_symbol)
-    @days_gain += @dollar_change.to_f() * trade.number_of_shares
-  end
-
-  return '%.2f' % @days_gain
-
+def get_top_movers()
+response = HTTParty.get("https://api.tradeking.com/v1/market/toplists/topvolume.xml")
 end
 
 

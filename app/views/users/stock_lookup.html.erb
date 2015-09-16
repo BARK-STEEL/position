@@ -4,8 +4,8 @@
 
   <span><strong>Cash available to trade:</strong> $<span id="cash"><%= sprintf "%.2f", @user.cash %></span></span>
 
-  <form action="" onsubmit="return submitForm()">
-    <input name="stock" type="text" id="stock_search" placeholder="enter stock symbol" />
+  <form action="" onsubmit="return submitForm()" id="stock_lookup_form">
+    <input name="stock" type="text" id="stock_search" placeholder="enter stock symbol" value="<%= @search_term %>"/>
     <input type="submit" id="symbol_search_button" value="find stock">
   </form>
 
@@ -30,8 +30,8 @@
       </div>
       <div class="trade-form input-group col-xs-4">
         <span class="input-group-addon" id="basic-addon2">Stock</i></span>
-        <span class="coSymb"></span>
-        <input type="hidden" class="buy-symbol form-control" name="trade[company_symbol]" value="">
+        <span class="coSymb form-control"></span>
+        <input type="hidden" class="buy-symbol" name="trade[company_symbol]" value="">
       </div><br>
       <div class="trade-form input-group col-xs-4">
         <span class="input-group-addon" id="basic-addon2">Quantity</i></span>
@@ -39,14 +39,15 @@
       </div><br>
       <div class="trade-form input-group col-xs-4">
       <span class="input-group-addon" id="basic-addon2">Price: $</span>
-      <span class="stockPrice"></span>
+      <span class="stockPrice form-control"></span>
       </div><br>
       <div class="trade-form input-group">
         <input class="trade-type" type="hidden" name="trade[trade_type]" value="buy">
       </div>
         <br>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary cancel" data-dismiss="modal">Cancel</button>
+          <a href="#" class="cancel" data-dismiss="modal" style="padding-right:20px">Cancel</a>
+          <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button> -->
           <button  data-type="buy" class="btn btn-primary preview_order ">Preview Order</button>
         </div>
     </div>

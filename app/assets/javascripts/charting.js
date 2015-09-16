@@ -186,20 +186,7 @@ Markit.InteractiveChartApi.prototype.render = function(data) {
 
 
 function changeSymbol(symbol) {
-  Markit.show = new Markit.InteractiveChartApi(symbol, 1000);
+  setTimeout(function() {
+    Markit.show = new Markit.InteractiveChartApi(symbol, 1000);
+}, 1000);
 }
-
-function bindSearch(){
-  $('#symbol_search_button').on('click', function(){
-    var newStock = $('#stock_search').val();
-    changeSymbol(newStock);
-  });
-
-};
-
-
-$( document ).ready(function() {
-
-bindSearch();
-
-});
