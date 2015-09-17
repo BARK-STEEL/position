@@ -113,6 +113,7 @@ class UsersController < ApplicationController
       @high_price = response['StockQuote']['High']
       @low_price = response['StockQuote']['Low']
       end
+    sleep (0.1)
 
   end
 

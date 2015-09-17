@@ -3,12 +3,12 @@
 <div class="container">
   <h2 class="title">Positions</h2><hr>
 
-  <span><strong>Cash available to trade:</strong> $<span id="cash"><%= sprintf "%.2f", @user.cash %></span></span>
+
+  <span style="font-size:1.5em"><strong>Cash available to trade:</strong> $<span id="cash"><%= sprintf "%.2f", @user.cash %></span></span>
   <table class="table table-striped" id="trades-table">
   </table>
 
 </div>
-
 <!-- Modals -->
 <div id="buyModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -130,7 +130,7 @@
       </div>
       <div class="modal-body"><h3>Your order has been confirmed. Please track your position in your positions tab.</h3></div>
       <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">Got it</button>
+      <button type="button" class="btn btn-default confirm" data-dismiss="modal">Got it</button>
       </div>
     </div
   </div>

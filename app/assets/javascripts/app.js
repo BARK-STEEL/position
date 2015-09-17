@@ -42,7 +42,7 @@ app.TradeListView = Backbone.View.extend({
   },
   render: function(){
     this.$el.empty();
-    this.$el.append('<tr class="header-row"><td>Symbol</td><td>Quantity</td><td>Cost Basis</td><td>Last Price</td><td>Current Value</td><td></td><td></td></tr>');
+    this.$el.append('<tr class="header-row"><th>Symbol</td><th>Last Price</td><th>Quantity</td><th>Cost Basis</td><th>Current Value</td><th >Total +/-</td><th style="text-align:center" colspan="2">Make Trade</td><td></td></tr>');
     var data = companyData();
     var trades = data[0];
     var view;
@@ -55,7 +55,13 @@ app.TradeListView = Backbone.View.extend({
         this.$el.append( view.$el );
       }
     }
-    // this.$el.append('<tr><td><b>Total:</b></td>' + '<td>' + data[1][0] + '</td>' + '<td>$' + data[1][1] + '</td><td></td><td id="total-value"></td></tr>');
+    var color;
+    if (data[1][3] > 0){
+      color = "green";
+    } else {
+      color = "red";
+    }
+    this.$el.append('<tr><td></td><td></td><td><b>Total:</b></td><td>$' + data[1][1] + '</td><td>$' + data[1][2] + '</td><td style="color: ' + color + '">$' + Math.abs(data[1][3]) + '</td><td></td><td></td><td></td></tr>');
   },
   events: {
     'load window': 'addPrices'
@@ -79,7 +85,7 @@ $(document).on('click', '.preview_order', function(e){
   var tradeType = $this.parent().prev().prev().children().first().val();
   if (order > parseFloat($('#cash').text()) && tradeType === 'buy'){
     numShares.css('border','1px solid red');
-  } else if ( numShares.val() > numShares.attr('data-shares') && tradeType === 'sell' ){
+  } else if ( numShares.val() > parseFloat(numShares.attr('data-shares')) && tradeType === 'sell' ){
     numShares.css('border','1px solid red');
   } else {
     if ( numShares.val() ==="" ) {
@@ -99,6 +105,10 @@ $(document).on('click', '.preview_order', function(e){
 });
 
 $(document).on('click', '.cancel', function(e){
+  location.reload();
+});
+
+$(document).on('click', '.confirm', function(e){
   $('.numShares').attr('data-shares', 0);
 });
 
@@ -175,7 +185,7 @@ function drawHtml(jsonResult) {
 function companyData() {
 
   var companyTotals = {};
-  var totals = {'total_portfolio_shares':0, 'total_portfolio_basis':0};
+  var totals = {'total_portfolio_shares':0, 'total_portfolio_basis':0, 'total_current_value':0, 'total_change':0};
   var indTrades = app.trades.models;
   for (var i = 0; i < indTrades.length; i++){
     if (indTrades[i].attributes.trade_type === 'buy'){
@@ -196,19 +206,20 @@ function companyData() {
     } else {
       if (indTrades[i].attributes.trade_type === 'buy'){
         companyTotals[indTrades[i].attributes.company_symbol] = [indTrades[i].attributes.number_of_shares, (indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price), indTrades[i].attributes.last_price] ;
+      } else {
+        companyTotals[indTrades[i].attributes.company_symbol] = [-indTrades[i].attributes.number_of_shares, (-indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price), indTrades[i].attributes.last_price] ;
       }
     }
-    console.log(companyTotals[indTrades[i].attributes.company_symbol][1]);
   }
-  console.log(companyTotals);
   companyArray = [];
   portfolioTotals = [];
   var lastPrice;
   for (var symbol in companyTotals) {
-    console.log(symbol);
-    companyArray.push({'company_symbol':symbol, 'number_of_shares':companyTotals[symbol][0], 'basis':companyTotals[symbol][1], 'last_price': companyTotals[symbol][2], 'current_value': companyTotals[symbol][2]*companyTotals[symbol][0]});
+    companyArray.push({'company_symbol':symbol, 'number_of_shares':companyTotals[symbol][0], 'basis':companyTotals[symbol][1], 'last_price': companyTotals[symbol][2], 'current_value': companyTotals[symbol][2]*companyTotals[symbol][0], 'change': (companyTotals[symbol][2]*companyTotals[symbol][0]) - companyTotals[symbol][1]});
+    totals.total_current_value += companyTotals[symbol][2]*companyTotals[symbol][0];
+    totals.total_change += ((companyTotals[symbol][2]*companyTotals[symbol][0]) - companyTotals[symbol][1]);
   }
-  portfolioTotals.push(totals.total_portfolio_shares, totals.total_portfolio_basis);
+  portfolioTotals.push(totals.total_portfolio_shares, totals.total_portfolio_basis,totals.total_current_value.toFixed(2), totals.total_change.toFixed(2) );
   return [companyArray,portfolioTotals];
 }
 
@@ -224,38 +235,9 @@ $('form.create-trade').on('submit', function(e){
   $('#ConfirmModal').modal('show');
 });
 
-function addPrices(){
-  var companies = $('.company');
-  var price = $('.current-price');
-  var shares = $('.shares');
-  var value = $('.totalValue');
-  var totalValue = 0;
-  for (var i = 0; i < companies.length; i++){
-    (function (i){
-      $company = $(companies[i]);
-      var symbol1 = $company.data('symbol');
-      var symbol2 = '#' + $company.data('symbol');
-      $.ajax({
-        url: '//dev.markitondemand.com/Api/v2/Quote/jsonp',
-        data: {'symbol': symbol1},
-        jsonp: "callback",
-        dataType: "jsonp",
-        success: function(ds){
-          $(symbol2).append(ds.LastPrice);
-          value[i].textContent = '$' + ds.LastPrice*parseInt(shares[i].textContent);
-          totalValue+=ds.LastPrice*parseInt(shares[i].textContent);
-          console.log(totalValue);
-          $('#total-value').html('$'+totalValue);
-        }
-      });
-    })(i);
-  }
-
-}
-
 $(window).load(function(){
 
-
   $('#stock_lookup_form').submit();
+
 
 });

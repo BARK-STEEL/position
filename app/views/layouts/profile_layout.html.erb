@@ -2,12 +2,13 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='https://fonts.googleapis.com/css?family=Play|Signika+Negative|Michroma|Yellowtail|Quantico|Kotta+One' rel='stylesheet' type='text/css'>
   <title>Position</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 
   <header id="header2" class="row">
-    <h2 id="logo" class="col-xs-10">Position</h2>
+    <h2 id="logo" class="col-xs-10">Position <i class="glyphicon glyphicon-triangle-top" ></i></h2>
       <span role="presentation" class=" dropdown navbar-text">
         <span class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Signed in as <%= @user.username %> <i class="glyphicon glyphicon-user"></i><i class="caret"></i>
         </span>
@@ -22,7 +23,6 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li><a href="/users/profile">My Profile <span class="sr-only">(current)</span></a></li>
-            <!-- <li><a href="/users/stock_lookup">Stock Lookup</a></li> -->
             <li><a href="/users/positions">Positions</a></li>
             <li><a href="/users/market_research">Market Research</a></li>
             <li><a href="/users/index">Leaderboard</a></li>
@@ -46,34 +46,29 @@
     <td class='company' data-symbol="<%%=company_symbol%>">
       <%%= company_symbol %>
     </td>
+    <td class ="current-price" id="<%%= company_symbol %>">
+      $<%%= parseFloat(last_price).toFixed(2) %>
+    </td>
     <td class="shares" data-shares="<%%=number_of_shares%>">
       <%%= number_of_shares %>
     </td>
     <td>
       $<%%= parseFloat(basis).toFixed(2) %>
     </td>
-    <td class ="current-price" id="<%%= company_symbol %>">
-      $<%%= parseFloat(last_price).toFixed(2) %>
-    </td>
     <td class="totalValue">
       $<%%= parseFloat(current_value).toFixed(2) %>
     </td>
-    <td>
+    <%% if (change > 0){color = "green";} else if ( change < 0 ) {color = "red";} else {color = "black"} %>
+    <td class="total-change" style="color: <%%= color %>">
+      $<%%= Math.abs(parseFloat(change).toFixed(2)) %>
+    </td>
+    <td  style="text-align:center">
       <button id="buy-button" type='button' class="btn btn-primary"
       data-symbol="<%%=company_symbol%>" data-shares="<%%=number_of_shares%>" data-toggle="modal" data-target="#buyModal">Buy</button>
     </td>
-    <td>
-      <button id="sell-button" type='button' class="btn btn-primary"
+    <td style="text-align:center">
+      <button style="text-align:right" id="sell-button" type='button' class="btn btn-primary"
       data-symbol="<%%=company_symbol%>" data-shares="<%%=number_of_shares%>" data-toggle="modal" data-target="#sellModal">Sell</button>
-    </td>
-
-  </script>
-  <script type="text/template" id="stock-template">
-    <td>
-      <%%= company_symbol %>
-    </td>
-    <td>
-      <%%= last_price %>
     </td>
 
   </script>
