@@ -42,7 +42,8 @@ class UsersController < ApplicationController
   def profile
     return nil if !authenticate!
     @user = current_user
-
+    update_portfolio(@user)
+    set_days_gain(@user)
     @trade = @user.trades.new
     render layout: "profile_layout"
 
@@ -115,18 +116,6 @@ class UsersController < ApplicationController
   end
 
 
-  def update_user_performance(user)
-    @net_worth = user.cash
-    @days_gain = 0
-
-    user.trades.each do |trade|
-
-        stock_search(trade.company_symbol)
-
-        apply_trade(user, trade)
-
-      end
-    end
 
 
   end

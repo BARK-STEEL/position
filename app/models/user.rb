@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 
   before_create :generate_token
 
+
   def generate_token
     self.token = SecureRandom.urlsafe_base64(nil, false)
   end
@@ -45,11 +46,11 @@ def self.update_user_performance(user)
       } )
 
     if trade['trade_type'] == 'buy'
-      self.remove_cash(current_user)
-      self.add_portfolio(current_user)
+      self.remove_cash(user)
+      self.add_portfolio(user)
     else
-      self.add_cash(current_user)
-      self.remove_portfolio(current_user)
+      self.add_cash(user)
+      self.remove_portfolio(user)
     end
 
     value_added = @last_price.to_f() * trade.number_of_shares
@@ -68,17 +69,92 @@ def self.update_user_performance(user)
 
 end
 
-def self.update_open_performance(user)
+def self.update_open_performance
+  User.all.each do |user|
   user.update({
     open_net_worth: user.net_worth
     })
+  end
 end
 
 def self.update_all_users
   User.all.each do |user|
-    self.update_user_performance(user)
+    # self.update_user_performance(user)
+    self.update_portfolio(user)
   end
 end
+
+def self.apply_trade(user, trade)
+  if trade['trade_type'] == 'buy'
+    remove_cash(user, trade)
+    add_portfolio(user, trade)
+  else
+    add_cash(user, trade)
+    remove_portfolio(user, trade)
+  end
+  update_net_worth(user)
+end
+
+def self.remove_cash(user, trade)
+  commission = 7.95
+  cash = user['cash'].to_f - ((@last_price.to_f*trade['number_of_shares'].to_i) + commission)
+
+  user.update({
+    cash: cash
+    })
+
+return user
+end
+
+def self.add_cash(user, trade)
+  commission = 7.95
+
+  user.update({
+    cash: user['cash'].to_f + ((@last_price.to_f*trade['number_of_shares'].to_i) - commission)
+    })
+return user
+end
+
+def self.add_portfolio(user, trade)
+  user.update({
+    portfolio_value: user['portfolio_value'].to_f + (@last_price.to_f*trade['number_of_shares'].to_f)
+    })
+return user
+end
+
+def self.remove_portfolio(user, trade)
+  user.update({
+    portfolio_value: user['portfolio_value'].to_f - (@last_price.to_f*trade['number_of_shares'].to_f)
+    })
+return user
+end
+
+def self.update_net_worth(user)
+  net_worth = (user['portfolio_value'].to_f + user['cash'].to_f)
+  user.update({
+    net_worth: net_worth
+    })
+  return user
+end
+
+
+def self.update_portfolio(user)
+  user.portfolio_value = 0
+
+  user.trades.each do |trade|
+    self.stock_search(trade.company_symbol)
+
+  if trade['trade_type'] == 'buy'
+    self.add_portfolio(user, trade)
+  else
+    self.remove_portfolio(user, trade)
+  end
+
+  end
+  self.update_net_worth(user)
+  return user
+end
+
 
 
 end

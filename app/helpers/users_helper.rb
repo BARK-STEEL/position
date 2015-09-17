@@ -28,18 +28,18 @@ module UsersHelper
 
   def apply_trade(user, trade)
     if trade['trade_type'] == 'buy'
-      remove_cash(user)
-      add_portfolio(user)
+      remove_cash(user, trade)
+      add_portfolio(user, trade)
     else
-      add_cash(user)
-      remove_portfolio(user)
+      add_cash(user, trade)
+      remove_portfolio(user, trade)
     end
     update_net_worth(user)
   end
 
-  def remove_cash(user)
+  def remove_cash(user, trade)
     commission = 7.95
-    cash = user['cash'].to_f - ((@last_price.to_f*@trade['number_of_shares'].to_i) + commission)
+    cash = user['cash'].to_f - ((@last_price.to_f*trade['number_of_shares'].to_i) + commission)
 
     user.update({
       cash: cash
@@ -48,25 +48,25 @@ module UsersHelper
   return user
   end
 
-  def add_cash(user)
+  def add_cash(user, trade)
     commission = 7.95
 
     user.update({
-      cash: user['cash'].to_f + ((@last_price.to_f*@trade['number_of_shares'].to_i) - commission)
+      cash: user['cash'].to_f + ((@last_price.to_f*trade['number_of_shares'].to_i) - commission)
       })
   return user
   end
 
-  def add_portfolio(user)
+  def add_portfolio(user, trade)
     user.update({
-      portfolio_value: user['portfolio_value'].to_f + (@last_price.to_f*@trade['number_of_shares'].to_f)
+      portfolio_value: user['portfolio_value'].to_f + (@last_price.to_f*trade['number_of_shares'].to_f)
       })
   return user
   end
 
-  def remove_portfolio(user)
+  def remove_portfolio(user, trade)
     user.update({
-      portfolio_value: user['portfolio_value'].to_f - (@last_price.to_f*@trade['number_of_shares'].to_f)
+      portfolio_value: user['portfolio_value'].to_f - (@last_price.to_f*trade['number_of_shares'].to_f)
       })
   return user
   end
@@ -77,6 +77,32 @@ module UsersHelper
       net_worth: net_worth
       })
     return user
+  end
+
+  def update_portfolio(user)
+    user.portfolio_value = 0
+
+    user.trades.each do |trade|
+      stock_search(trade.company_symbol)
+
+    if trade['trade_type'] == 'buy'
+      add_portfolio(user, trade)
+    else
+      remove_portfolio(user, trade)
+    end
+
+    end
+    update_net_worth(user)
+    return user
+  end
+
+  def set_days_gain(user)
+    days_gain = user['net_worth'] - user['open_net_worth']
+
+  user.update({
+    days_gain: days_gain
+    })
+
   end
 
 end
