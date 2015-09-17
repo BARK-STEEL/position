@@ -36,7 +36,6 @@ def self.update_user_performance(user)
   user.trades.each do |trade|
     self.stock_search(trade.company_symbol)
     trade.update( {
-      share_purchase_price: @last_price,
       last_price: @last_price,
       dollar_change: @dollar_change,
       change_percent: @change_percent,

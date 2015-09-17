@@ -51,9 +51,10 @@
       $<%%= parseFloat(basis).toFixed(2) %>
     </td>
     <td class ="current-price" id="<%%= company_symbol %>">
+      $<%%= parseFloat(last_price).toFixed(2) %>
     </td>
     <td class="totalValue">
-
+      $<%%= parseFloat(current_value).toFixed(2) %>
     </td>
     <td>
       <button id="buy-button" type='button' class="btn btn-primary"
@@ -90,7 +91,9 @@
   function submitForm() {
     stock = $('#stock_search').val();
     findStock(stock);
-    changeSymbol(stock);
+    setTimeout(function(){
+      changeSymbol(stock);
+    }, 1000);
     return false;
   }
 
