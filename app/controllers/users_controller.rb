@@ -22,9 +22,10 @@ class UsersController < ApplicationController
 
     @user = User.new(user_params)
 
-    update_user_performance(@user)
-
     if @user.save
+
+      update_user_performance(@user)
+
 
       respond_to do |format|
 
@@ -93,7 +94,7 @@ class UsersController < ApplicationController
 
   def user_params
 
-    params.require( :user ).permit( :username, :email, :password, :phone, :profile_image, :cash )
+    params.require( :user ).permit( :username, :email, :password, :phone, :profile_image, :cash, :portfolio_value )
 
   end
 
@@ -137,9 +138,11 @@ class UsersController < ApplicationController
     @net_worth = '%.2f' % @net_worth
     @days_gain = '%.2f' % @days_gain
       user.update({
+
         net_worth: user.cash + user.portfolio_value,
         days_gain: @days_gain
         })
+
 
   end
 
