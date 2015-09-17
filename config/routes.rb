@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   get '/users/index' => 'users#index'
   get '/users/search_bar' => 'users#search_bar'
 
+  get 'users/demo' => 'users#demo'
+
 
 
   post '/sessions' => 'sessions#create'

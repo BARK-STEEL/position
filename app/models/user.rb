@@ -10,7 +10,6 @@ class User < ActiveRecord::Base
 
   def self.stock_search( symbol )
 
-    while true
       response = HTTParty.get("http://dev.markitondemand.com/Api/v2/Quote?symbol=#{symbol}")
 
       if (response != nil)
@@ -25,9 +24,7 @@ class User < ActiveRecord::Base
         puts '******************'
         puts 'No RESPONSE RECEIVED'
       end
-      sleep .1
-
-    end
+      sleep (0.5)
 
   end
 
@@ -48,10 +45,10 @@ def self.update_user_performance(user)
       low_price: @low_price
       } )
 
-    if @trade['trade_type'] == 'buy'
-      user.update( {cash: user['cash'].to_i-(@last_price.to_i*@trade['number_of_shares'].to_i)} )
+    if trade['trade_type'] == 'buy'
+      user.update( {cash: user['cash'].to_i-(@last_price.to_i*trade['number_of_shares'].to_i)} )
     else
-      user.update( {cash: current_user['cash'].to_i+(@last_price.to_i*@trade['number_of_shares'].to_i)} )
+      user.update( {cash: user['cash'].to_i+(@last_price.to_i*trade['number_of_shares'].to_i)} )
     end
 
     value_added = @last_price.to_f() * trade.number_of_shares
@@ -75,6 +72,5 @@ def self.update_all_users
     self.update_user_performance(user)
   end
 end
-
 
 end
