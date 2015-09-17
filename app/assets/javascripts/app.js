@@ -236,9 +236,9 @@ $('form.create-trade').on('submit', function(e){
 });
 
 $(window).load(function(){
-
-  $('#stock_lookup_form').submit();
-
+  setTimeout(function(){
+    $('#stock_lookup_form').submit();
+  }, 1000);
 });
 
 $(document).ready(function(){
