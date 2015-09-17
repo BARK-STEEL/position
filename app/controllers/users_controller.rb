@@ -116,18 +116,6 @@ class UsersController < ApplicationController
   end
 
 
-  def update_user_performance(user)
-    @net_worth = user.cash
-    @days_gain = 0
-
-    user.trades.each do |trade|
-
-        stock_search(trade.company_symbol)
-
-        apply_trade(user, trade)
-
-      end
-    end
 
 
   end
