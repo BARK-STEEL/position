@@ -239,8 +239,10 @@ $(window).load(function(){
 
   $('#stock_lookup_form').submit();
 
+});
+
+$(document).ready(function(){
   setTimeout(function(){
     $('[data-toggle="popover"]').popover();
   }, 500);
-
 });

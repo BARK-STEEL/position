@@ -24,9 +24,6 @@ class UsersController < ApplicationController
 
     if @user.save
 
-      update_user_performance(@user)
-
-
       respond_to do |format|
 
         format.html { redirect_to log_in_path}
@@ -45,8 +42,6 @@ class UsersController < ApplicationController
   def profile
     return nil if !authenticate!
     @user = current_user
-    update_user_performance(@user)
-
 
     @trade = @user.trades.new
     render layout: "profile_layout"
@@ -94,7 +89,7 @@ class UsersController < ApplicationController
 
   def user_params
 
-    params.require( :user ).permit( :username, :email, :password, :phone, :profile_image, :cash, :portfolio_value )
+    params.require( :user ).permit( :username, :email, :password, :phone, :profile_image, :cash, :portfolio_value, :net_worth, :days_gain, :open_net_worth )
 
   end
 
