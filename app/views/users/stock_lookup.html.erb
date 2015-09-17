@@ -1,10 +1,10 @@
 <div class="container">
 
-  <h2>Stock Lookup</h2>
+  <h2 class="title">Stock Lookup</h2><hr>
 
-  <span><strong>Cash available to trade:</strong> $<span id="cash"><%= sprintf "%.2f", @user.cash %></span></span>
+  <!-- <span><strong>Cash available to trade:</strong> $<span id="cash"><%= sprintf "%.2f", @user.cash %></span></span> -->
 
-  <form action="" onsubmit="return submitForm()" id="stock_lookup_form">
+  <form class="hide-form" action="" onsubmit="return submitForm()" id="stock_lookup_form">
     <input name="stock" type="text" id="stock_search" placeholder="enter stock symbol" value="<%= @search_term %>"/>
     <input type="submit" id="symbol_search_button" value="find stock">
   </form>

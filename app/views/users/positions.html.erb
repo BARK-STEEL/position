@@ -1,7 +1,7 @@
 <input type="hidden" id="api-token" value="<%= @user.token %>">
 
 <div class="container">
-  <h2>Positions</h2>
+  <h2 class="title">Positions</h2><hr>
 
   <span><strong>Cash available to trade:</strong> $<span id="cash"><%= sprintf "%.2f", @user.cash %></span></span>
   <table class="table table-striped" id="trades-table">
