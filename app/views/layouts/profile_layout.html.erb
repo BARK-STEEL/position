@@ -89,7 +89,9 @@
   function submitForm() {
     stock = $('#stock_search').val();
     findStock(stock);
+    setTimeout(function() {
     changeSymbol(stock);
+  }, 1000);
     return false;
   }
 

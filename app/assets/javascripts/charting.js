@@ -186,7 +186,5 @@ Markit.InteractiveChartApi.prototype.render = function(data) {
 
 
 function changeSymbol(symbol) {
-  setTimeout(function() {
     Markit.show = new Markit.InteractiveChartApi(symbol, 1000);
-}, 1000);
 }
