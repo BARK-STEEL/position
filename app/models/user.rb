@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
   end
 
 
-def update_user_performance(user)
+def self.update_user_performance(user)
   @net_worth = user.cash
   @days_gain = 0
 
@@ -68,7 +68,7 @@ end
 
 def self.update_all_users
   User.all.each do |user|
-    update_user_performance(user)
+    self.update_user_performance(user)
   end
 end
 
