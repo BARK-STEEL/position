@@ -36,6 +36,12 @@ gem 'httparty'
 
 gem 'responders'
 
+group :production, :development do
+
+gem 'whenever'
+
+end
+
 group :production do
 
   gem 'rails_12factor'

@@ -1,7 +1,12 @@
 <input type="hidden" id="api-token" value="<%= @user.token %>">
 
 <div class="container">
+<<<<<<< HEAD
+  <h2 class="title">Positions</h2><hr>
+=======
+
   <h2>Positions</h2>
+>>>>>>> 79416aa87323628cb0ce1e36efdd1a33307610db
 
   <span><strong>Cash available to trade:</strong> $<span id="cash"><%= sprintf "%.2f", @user.cash %></span></span>
   <table class="table table-striped" id="trades-table">
@@ -9,80 +14,6 @@
 
 </div>
 
-<div id="buyModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Buy</h4>
-      </div>
-      <div class="trade-form input-group col-xs-4">
-        <span class="input-group-addon" id="basic-addon2">Stock</i></span>
-        <span class="coSymb form-control"></span>
-        <input type="hidden" class="buy-symbol" name="trade[company_symbol]" value="">
-      </div><br>
-      <div class="trade-form input-group col-xs-4">
-        <span class="input-group-addon" id="basic-addon2">Quantity</i></span>
-        <input class="numShares"  data-shares="" class="form-control required" type="number" name="trade[number_of_shares]" value="" >
-      </div>
-      <div>
-        <span></span>
-      </div><br>
-      <div class="trade-form input-group col-xs-4">
-      <span class="input-group-addon" id="basic-addon2">Price: $</span>
-      <span class="stockPrice form-control"></span>
-      </div><br>
-      <div class="trade-form input-group">
-        <input class="trade-type" type="hidden" name="trade[trade_type]" value="buy">
-      </div>
-        <br>
-        <div class="modal-footer">
-          <a href="#" class="" data-dismiss="modal" style="padding-right:20px">Cancel</a>
-          <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button> -->
-          <button  data-type="buy" class="btn btn-primary preview_order ">Preview Order</button>
-        </div>
-    </div>
-  </div>
-</div>
-
-<div id="sellModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Sell</h4>
-      </div>
-      <div class="trade-form input-group col-xs-4">
-        <span class="input-group-addon" id="basic-addon2">Stock</i></span>
-        <span class="coSymb form-control"></span>
-        <input type="hidden" id="buy-symbol" name="trade[company_symbol]" value="">
-<!-- =======
-        <span class="coSymb"></span>
-        <input type="hidden" class="buy-symbol form-control" name="trade[company_symbol]" value="">
->>>>>>> 4711ba8752f1fe7e49e88fb2db661d4a3d220c14 -->
-      </div><br>
-      <div class="trade-form input-group col-xs-4">
-        <span class="input-group-addon" id="basic-addon2">Quantity</i></span>
-        <input class="numShares" data-shares="" class="form-control required" type="number" name="trade[number_of_shares]" value="" >
-      </div><br>
-      <div class="trade-form input-group col-xs-4">
-      <span class="input-group-addon" id="basic-addon2">Price: $</span>
-      <span class="stockPrice form-control"></span>
-      </div><br>
-      <div class="trade-form input-group">
-        <input class="trade-type" type="hidden" name="trade[trade_type]" value="sell">
-      </div>
-        <br>
-        <div class="modal-footer">
-          <a href="#" class="" data-dismiss="modal" style="padding-right:20px">Cancel</a>
-          <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button> -->
-          <button class="preview_order btn btn-primary">Preview Order</button>
-        </div>
-    </div>
-  </div>
-</div>
 <!-- Modals -->
 <div id="buyModal" class="modal fade" role="dialog">
   <div class="modal-dialog">

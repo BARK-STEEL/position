@@ -55,7 +55,7 @@ app.TradeListView = Backbone.View.extend({
         this.$el.append( view.$el );
       }
     }
-    this.$el.append('<tr><td><b>Total:</b></td>' + '<td>' + data[1][0] + '</td>' + '<td>$' + data[1][1] + '</td><td></td><td id="total-value"></td></tr>');
+    // this.$el.append('<tr><td><b>Total:</b></td>' + '<td>' + data[1][0] + '</td>' + '<td>$' + data[1][1] + '</td><td></td><td id="total-value"></td></tr>');
   },
   events: {
     'load window': 'addPrices'
@@ -195,16 +195,18 @@ function companyData() {
       }
     } else {
       if (indTrades[i].attributes.trade_type === 'buy'){
-        companyTotals[indTrades[i].attributes.company_symbol] = [indTrades[i].attributes.number_of_shares, (indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price)] ;
+        companyTotals[indTrades[i].attributes.company_symbol] = [indTrades[i].attributes.number_of_shares, (indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price), indTrades[i].attributes.last_price] ;
       }
     }
+    console.log(companyTotals[indTrades[i].attributes.company_symbol][1]);
   }
+  console.log(companyTotals);
   companyArray = [];
   portfolioTotals = [];
   var lastPrice;
   for (var symbol in companyTotals) {
-    companyArray.push({'company_symbol':symbol, 'number_of_shares':companyTotals[symbol][0], 'basis':companyTotals[symbol][1], 'last_price': lastPrice});
-
+    console.log(symbol);
+    companyArray.push({'company_symbol':symbol, 'number_of_shares':companyTotals[symbol][0], 'basis':companyTotals[symbol][1], 'last_price': companyTotals[symbol][2], 'current_value': companyTotals[symbol][2]*companyTotals[symbol][0]});
   }
   portfolioTotals.push(totals.total_portfolio_shares, totals.total_portfolio_basis);
   return [companyArray,portfolioTotals];
@@ -221,10 +223,6 @@ $('form.create-trade').on('submit', function(e){
   $('#sellModal').modal('hide');
   $('#ConfirmModal').modal('show');
 });
-
-
-
-
 
 function addPrices(){
   var companies = $('.company');
@@ -255,11 +253,11 @@ function addPrices(){
 
 }
 
-$(window).load(function(){
-  setTimeout(function(){
-    addPrices();
-  },1000);
-
-  $('#stock_lookup_form').submit();
-
-});
+// $(window).load(function(){
+//   setTimeout(function(){
+//     addPrices();
+//   },1000);
+//
+//   $('#stock_lookup_form').submit();
+//
+// });

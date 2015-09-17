@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Position</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -21,7 +22,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li><a href="/users/profile">My Profile <span class="sr-only">(current)</span></a></li>
-            <li><a href="/users/stock_lookup">Stock Lookup</a></li>
+            <!-- <li><a href="/users/stock_lookup">Stock Lookup</a></li> -->
             <li><a href="/users/positions">Positions</a></li>
             <li><a href="/users/market_research">Market Research</a></li>
             <li><a href="/users/index">Leaderboard</a></li>
@@ -29,11 +30,13 @@
           <ul class="nav navbar-nav navbar-right">
 
             <div class="input-group">
-            <form class="navbar-form navbar-left" role="search" action="/users/stock_lookup" method="get">
+              <form class="navbar-form navbar-left" role="search" action="/users/stock_lookup" method="get">
                 <input type="text" class="form-control nav-search" name="search" placeholder="Search Stock" aria-describedby="basic-addon2">
-                <button type="submit"><i class="glyphicon glyphicon-search"></i></button>
-              </div>
-            </form>
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                </span>
+              </form>
+            </div>
           </ul>
         </div>
       </div>
@@ -50,9 +53,10 @@
       $<%%= parseFloat(basis).toFixed(2) %>
     </td>
     <td class ="current-price" id="<%%= company_symbol %>">
+      $<%%= parseFloat(last_price).toFixed(2) %>
     </td>
     <td class="totalValue">
-
+      $<%%= parseFloat(current_value).toFixed(2) %>
     </td>
     <td>
       <button id="buy-button" type='button' class="btn btn-primary"
@@ -92,6 +96,7 @@
     setTimeout(function() {
     changeSymbol(stock);
   }, 1000);
+
     return false;
   }
 
@@ -102,7 +107,6 @@
   }
   function colorRedorGreen(jsonResult) {
     var fontColor;
-
     if (jsonResult.ChangePercent > 0) {
       fontColor = "green";
     } else if (jsonResult.ChangePercent < 0) {
@@ -111,6 +115,17 @@
 
     return fontColor;
   }
+
+  function arrowUpOrDown(jsonResult) {
+    var element;
+    if (jsonResult.ChangePercent > 0) {
+      element = '<i style="font-size:65%" class="glyphicon glyphicon-arrow-up"></i>';
+    } else if (jsonResult.ChangePercent < 0) {
+      element = '<i style="font-size:65%" class="glyphicon glyphicon-arrow-down"></i>';
+    }
+    return element;
+  }
+
   function colorRedorGreenYTD(jsonResult) {
     var fontColor;
 
@@ -126,18 +141,17 @@
 
     var dayFontColor = colorRedorGreen(jsonResult);
     var fontColorYTD = colorRedorGreenYTD(jsonResult);
-
+    var glyphicon = arrowUpOrDown(jsonResult);
 
     $('#results').html("");
 
     $("#results").append(
     '<div class="row stock-lookup">' +
     '<div class="col-xs-6">' +
-    '<h2>' + jsonResult.Name  + '</h2>' +
-    '<span> Trading Symbol: ' + jsonResult.Symbol + '</span><br><br>' +
-    '<button id="buy-button" type="button" class="btn btn-primary btn-lg"   data-toggle="modal" data-target="#buyModal" data-symbol="' + jsonResult.Symbol + '">Buy</button>       ' +
-    '<button id="sell-button" class="sell-button btn btn-primary btn-lg" data-symbol="' + jsonResult.Symbol + '" data-shares="<%%=number_of_shares%>" data-toggle="modal" data-target="#sellModal">Sell</button>' +
-    '<h4><strong>Last: $' + jsonResult.LastPrice.toFixed(2) + '</strong></h4><h5>Day\'s Change: <span style="color:' + dayFontColor + '">$' + jsonResult.Change.toFixed(2) + ' ( ' + jsonResult.ChangePercent.toFixed(2) + '% ) </span></h5><br>' +
+    '<h4>' + jsonResult.Name  + ' (' + jsonResult.Symbol + ')' + '</h4>' + '<span>as of ' + jsonResult.Timestamp + '</span>' +
+    '<h2>$' + jsonResult.LastPrice.toFixed(2) + '<span id="add-arrow" style="color:' + dayFontColor + '"> ' + glyphicon + ' ' + Math.abs(jsonResult.Change.toFixed(2)) + ' (' + Math.abs(jsonResult.ChangePercent.toFixed(2)) + '%) </span></h2>' +
+    '<button style="margin-top:2%; margin-bottom:2%" id="buy-button" type="button" class="data-point btn btn-primary"   data-toggle="modal" data-target="#buyModal" data-symbol="' + jsonResult.Symbol + '">Buy</button>       ' +
+    '<button style="margin-top:2%; margin-bottom:2%" id="sell-button" class="data-point sell-button btn btn-primary" data-symbol="' + jsonResult.Symbol + '" data-shares="<%%=number_of_shares%>" data-toggle="modal" data-target="#sellModal">Sell</button>' +
     '<div class="data-point">' +
     '<strong> YTD Change: </strong>   <span style="color:' + fontColorYTD + '">$' + jsonResult.ChangeYTD.toFixed(2)  +
     ' ( ' + jsonResult.ChangePercentYTD.toFixed(2)  + '% ) </span></div>' +
