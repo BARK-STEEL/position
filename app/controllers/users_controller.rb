@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   def index
     @user = current_user
 
-    @users = User.all
+    @users = User.order(net_worth: :desc)
     render layout: "profile_layout"
   end
 # signup GET  /signup(.:format)        users#new
@@ -92,51 +92,51 @@ class UsersController < ApplicationController
   end
 
   def stock_search( symbol )
-
+    @response = true;
     response = HTTParty.get("http://dev.markitondemand.com/Api/v2/Quote?symbol=#{symbol}")
 
-    if (response != nil)
-    @company_name = response['StockQuote']['Name']
-    @last_price = response['StockQuote']['LastPrice']
-    @dollar_change = response['StockQuote']['Change']
-    @change_percent = response['StockQuote']['ChangePercent']
-    @open_price = response['StockQuote']['Open']
-    @high_price = response['StockQuote']['High']
-    @low_price = response['StockQuote']['Low']
-    else
-      puts '******************'
-      puts 'No RESPONSE RECEIVED'
+      if response['Error']
+        @response = false;
+        return @response;
+      else
+      @company_name = response['StockQuote']['Name']
+      @last_price = response['StockQuote']['LastPrice']
+      @dollar_change = response['StockQuote']['Change']
+      @change_percent = response['StockQuote']['ChangePercent']
+      @open_price = response['StockQuote']['Open']
+      @high_price = response['StockQuote']['High']
+      @low_price = response['StockQuote']['Low']
+      end
+
+  end
+
+
+  def update_user_performance(user)
+    @net_worth = user.cash
+    @days_gain = 0
+
+    user.trades.each do |trade|
+
+        stock_search(trade.company_symbol)
+
+        if @response == false
+          puts '***** UPDATE ERROR: RESPONSE FALSE ******'
+        else
+          value_added = @last_price.to_f() * trade.number_of_shares
+          @net_worth += value_added
+          @days_gain += ((@last_price.to_f() - trade.share_purchase_price) * trade.number_of_shares)
+        end
     end
+    @net_worth = '%.2f' % @net_worth
+    @days_gain = '%.2f' % @days_gain
+      user.update({
+        net_worth: @net_worth,
+        days_gain: @days_gain
+        })
 
   end
 
 
-def update_user_performance(user)
-  @net_worth = user.cash
-  @days_gain = 0
-
-  user.trades.each do |trade|
-  stock_search(trade.company_symbol)
-
-  value_added = @last_price.to_f() * trade.number_of_shares
-  @net_worth += value_added
-
-  @days_gain += ((@last_price.to_f() - trade.share_purchase_price) * trade.number_of_shares)
-
-  end
-  @net_worth = '%.2f' % @net_worth
-  @days_gain = '%.2f' % @days_gain
-
-  user.update({
-    net_worth: @net_worth,
-    days_gain: @days_gain
-    })
-
-end
-
-def get_top_movers()
-response = HTTParty.get("https://api.tradeking.com/v1/market/toplists/topvolume.xml")
-end
 
 
 end

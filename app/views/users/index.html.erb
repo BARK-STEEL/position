@@ -6,6 +6,9 @@
 
   <table class="table table-hover">
     <th>
+      Rank
+    </th>
+    <th>
       Username
     </th>
     <th>
@@ -17,11 +20,14 @@
     <th>
       Percent Gain
     </th>
-    <% @users.each do |user| %>
+    <% @users.each_with_index do |user, i| %>
     <% percent_gain = (user.days_gain.to_f() / user.net_worth.to_f()) %>
 
     <% if (percent_gain > 0.5) %>
     <tr class="success">
+    <td>
+      <%= i + 1%>
+    </td>
     <td>
       <%= user.username %>
     </td>
@@ -39,6 +45,9 @@
 
     <% elsif (percent_gain > 0.25) %>
     <tr class="info">
+      <td>
+        <%= i + 1%>
+      </td>
     <td>
       <%= user.username %>
     </td>
@@ -56,6 +65,9 @@
 
     <% elsif (percent_gain < 0) %>
     <tr class="warning">
+      <td>
+        <%= i + 1%>
+      </td>
     <td>
       <%= user.username %>
     </td>
@@ -73,6 +85,9 @@
 
     <% elsif (percent_gain < -0.5) %>
     <tr class="danger">
+      <td>
+        <%= i + 1%>
+      </td>
     <td>
       <%= user.username %>
     </td>
@@ -90,6 +105,9 @@
 
     <% else %>
     <tr class="active">
+    <td>
+      <%= i + 1%>
+    </td>
     <td>
       <%= user.username %>
     </td>
