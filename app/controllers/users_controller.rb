@@ -42,7 +42,8 @@ class UsersController < ApplicationController
   def profile
     return nil if !authenticate!
     @user = current_user
-
+    update_portfolio(@user)
+    set_days_gain(@user)
     @trade = @user.trades.new
     render layout: "profile_layout"
 

@@ -22,3 +22,7 @@
 every 1.hour do
   runner "User.update_all_users"
 end
+
+every 1.day, :at => '10:00 pm' do
+  rake "User.update_open_performance"
+end
