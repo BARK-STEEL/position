@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-
+  include UsersHelper
   include SessionsHelper
 
 # users GET  /users(.:format)         users#index
@@ -74,6 +74,8 @@ class UsersController < ApplicationController
 
   def market_research
     @user = current_user
+    @alltitles = get_titles
+    @alllinks = get_links
     render layout: "profile_layout"
   end
 
