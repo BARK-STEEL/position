@@ -1,6 +1,9 @@
 <div class="container">
 
   <h2>Stock Lookup</h2>
+
+  <span><strong>Cash available to trade:</strong> $<span id="cash"><%= sprintf "%.2f", @user.cash %></span></span>
+
   <form action="" onsubmit="return submitForm()" id="stock_lookup_form">
     <input name="stock" type="text" id="stock_search" placeholder="enter stock symbol" value="<%= @search_term %>"/>
     <input type="submit" id="symbol_search_button" value="find stock">
@@ -32,7 +35,7 @@
       </div><br>
       <div class="trade-form input-group col-xs-4">
         <span class="input-group-addon" id="basic-addon2">Quantity</i></span>
-        <input type="text"  class="form-control required numShares" type="number" name="trade[number_of_shares]" value="" >
+        <input class="numShares"  data-shares="" class="form-control required" type="number" name="trade[number_of_shares]" value="" >
       </div><br>
       <div class="trade-form input-group col-xs-4">
       <span class="input-group-addon" id="basic-addon2">Price: $</span>
@@ -43,7 +46,7 @@
       </div>
         <br>
         <div class="modal-footer">
-          <a href="#" class="" data-dismiss="modal" style="padding-right:20px">Cancel</a>
+          <a href="#" class="cancel" data-dismiss="modal" style="padding-right:20px">Cancel</a>
           <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button> -->
           <button  data-type="buy" class="btn btn-primary preview_order ">Preview Order</button>
         </div>
@@ -61,12 +64,12 @@
       </div>
       <div class="trade-form input-group col-xs-4">
         <span class="input-group-addon" id="basic-addon2">Stock</i></span>
-        <span class="coSymb form-control"></span>
-        <input type="hidden" id="buy-symbol" name="trade[company_symbol]" value="">
+        <span class="coSymb"></span>
+        <input type="hidden" class="buy-symbol form-control" name="trade[company_symbol]" value="">
       </div><br>
       <div class="trade-form input-group col-xs-4">
         <span class="input-group-addon" id="basic-addon2">Quantity</i></span>
-        <input class="numShares form-control required" type="number" name="trade[number_of_shares]" value="" >
+        <input class="numShares"  data-shares="" class="form-control required" type="number" name="trade[number_of_shares]" value="" >
       </div><br>
       <div class="trade-form input-group col-xs-4">
       <span class="input-group-addon" id="basic-addon2">Price: $</span>
@@ -78,7 +81,6 @@
         <br>
         <div class="modal-footer">
           <a href="#" class="" data-dismiss="modal" style="padding-right:20px">Cancel</a>
-          <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button> -->
           <button class="preview_order btn btn-primary">Preview Order</button>
         </div>
     </div>
@@ -115,7 +117,7 @@
         <span class="input-group col-xs-3">Commission: </i></span><b><span>$7.95</span></b>
       </div><br>
       <div>
-      <span class="input-group col-xs-3">Est. Order Value: $</i></span><b><span id="preview-order-value"></span></b>
+      <span class="input-group col-xs-3">Est. Order Value: </i></span><b><span id="preview-order-value"></span></b>
       </div>
       <div class="modal-footer">
       <button type="button" class="btn btn-primary" data-dismiss="modal">Edit Trade</button>
@@ -135,7 +137,7 @@
       </div>
       <div class="modal-body"><h3>Your order has been confirmed. Please track your position in your positions tab.</h3></div>
       <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">Got it</button>
+      <button id="exit-button" type="button" class="btn btn-default" data-dismiss="modal">Got it</button>
       </div>
     </div
   </div>

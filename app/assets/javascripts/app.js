@@ -47,13 +47,15 @@ app.TradeListView = Backbone.View.extend({
     var trades = data[0];
     var view;
     for ( var i = 0; i < trades.length; i++ ){
-      view = new app.TradeView({
-        model: trades[ i ]
-      });
-      view.render();
-      this.$el.append( view.$el );
+      if (trades[ i ].number_of_shares > 0){
+        view = new app.TradeView({
+          model: trades[ i ]
+        });
+        view.render();
+        this.$el.append( view.$el );
+      }
     }
-    this.$el.append('<tr><td><b>Total:</b></td>' + '<td>' + data[1][0] + '</td>' + '<td>$' + data[1][1] + '</td><td></td><td></td></tr>');
+    this.$el.append('<tr><td><b>Total:</b></td>' + '<td>' + data[1][0] + '</td>' + '<td>$' + data[1][1] + '</td><td></td><td id="total-value"></td></tr>');
   },
   events: {
     'load window': 'addPrices'
@@ -71,34 +73,76 @@ app.trades.fetch();
 
 $(document).on('click', '.preview_order', function(e){
   $this = $(this);
+  var price = $('#previewstockPrice').html().slice(1);
   var numShares = $this.parent().parent().find('.numShares');
-  if ( numShares.val() ==="" ) {
+  var order = ((numShares.val()*price)+7.95).toFixed(2);
+  var tradeType = $this.parent().prev().prev().children().first().val();
+  if (order > parseFloat($('#cash').text()) && tradeType === 'buy'){
+    numShares.css('border','1px solid red');
+  } else if ( numShares.val() > numShares.attr('data-shares') && tradeType === 'sell' ){
     numShares.css('border','1px solid red');
   } else {
-    $this = $(this);
-    numShares.css('border', '1px solid black');
-    console.log('shares:' + numShares.val());
-    $('#previewNumShares').html(numShares.val());
-    $('#preview-number-of-shares').val(numShares.val());
-    var price = $('#previewstockPrice').html();
-    var order = ((numShares.val()*price)+7.95).toFixed(2);
-    $('#preview-order-value').html(order);
-    var tradeType = $this.parent().prev().prev().children().first().val();
-    $('#preview-trade-type').val(tradeType);
-    $('#previewTradeType').html(tradeType.charAt(0).toUpperCase() + tradeType.substring(1));
-    $('#PreviewModal').modal('show');
+    if ( numShares.val() ==="" ) {
+      numShares.css('border','1px solid red');
+    } else {
+      $this = $(this);
+      numShares.css('border', '1px solid black');
+      console.log('shares:' + numShares.val());
+      $('#previewNumShares').html(numShares.val());
+      $('#preview-number-of-shares').val(numShares.val());
+      $('#preview-order-value').html('$' + order);
+      $('#preview-trade-type').val(tradeType);
+      $('#previewTradeType').html(tradeType.charAt(0).toUpperCase() + tradeType.substring(1));
+      $('#PreviewModal').modal('show');
+    }
   }
+});
+
+$(document).on('click', '.cancel', function(e){
+  $('.numShares').attr('data-shares', 0);
 });
 
 $(document).on('click', '#buy-button', function(e){
     $this = $(this);
     var stock = $this.data('symbol');
+    var companies = companyData()[0];
+    var stockOwned = false;
+    var shares1;
+    for (var i = 0; i < companies.length; i++){
+      if ( companies[i].company_symbol === stock ) {
+        shares1 = companies[i].number_of_shares;
+        stockOwned = true;
+      }
+    }
+    if ( stockOwned === false ){
+      shares1 = 0;
+    }
+    $('.numShares').attr('data-shares', 0);
+    $('.numShares').attr('data-shares', shares1);
     $('.buy-symbol').val(stock);
     getStock(stock);
 });
+$(document).on('click', '#exit-button', function(e){
+  $('.modal-backdrop').hide();
+});
+
 $(document).on('click', '#sell-button', function(e){
     $this = $(this);
     var stock = $this.data('symbol');
+    var companies = companyData()[0];
+    var stockOwned = false;
+    var shares2;
+    for (var i = 0; i < companies.length; i++){
+      if ( companies[i].company_symbol === stock ) {
+        shares2 = companies[i].number_of_shares;
+        stockOwned = true;
+      }
+    }
+    if ( stockOwned === false ){
+      shares2 = 0;
+    }
+    $('.numShares').attr('data-shares', 0);
+    $('.numShares').attr('data-shares', shares2);
     $('.buy-symbol').val(stock);
     getStock(stock);
 });
@@ -117,7 +161,7 @@ function getStock(stock) {
 function drawHtml(jsonResult) {
     console.log('draw');
       $('.stockPrice').html(jsonResult.LastPrice);
-      $('#previewstockPrice').html(jsonResult.LastPrice);
+      $('#previewstockPrice').html('$' + jsonResult.LastPrice);
 
       $('.coSymbol').html(jsonResult.Symbol);
       $('.coSymb').html(jsonResult.Symbol);
@@ -139,6 +183,7 @@ function companyData() {
       totals.total_portfolio_basis+=(indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price);
     } else {
       totals.total_portfolio_shares -= indTrades[i].attributes.number_of_shares;
+      totals.total_portfolio_basis-=(indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price);
     }
     if (companyTotals[indTrades[i].attributes.company_symbol]){
       if (indTrades[i].attributes.trade_type === 'buy'){
@@ -146,6 +191,7 @@ function companyData() {
         companyTotals[indTrades[i].attributes.company_symbol][1] += (indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price);
       } else {
         companyTotals[indTrades[i].attributes.company_symbol][0] -= indTrades[i].attributes.number_of_shares;
+        companyTotals[indTrades[i].attributes.company_symbol][1] -= (indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price);
       }
     } else {
       if (indTrades[i].attributes.trade_type === 'buy'){
@@ -158,6 +204,7 @@ function companyData() {
   var lastPrice;
   for (var symbol in companyTotals) {
     companyArray.push({'company_symbol':symbol, 'number_of_shares':companyTotals[symbol][0], 'basis':companyTotals[symbol][1], 'last_price': lastPrice});
+
   }
   portfolioTotals.push(totals.total_portfolio_shares, totals.total_portfolio_basis);
   return [companyArray,portfolioTotals];
@@ -184,6 +231,7 @@ function addPrices(){
   var price = $('.current-price');
   var shares = $('.shares');
   var value = $('.totalValue');
+  var totalValue = 0;
   for (var i = 0; i < companies.length; i++){
     (function (i){
       $company = $(companies[i]);
@@ -196,11 +244,15 @@ function addPrices(){
         dataType: "jsonp",
         success: function(ds){
           $(symbol2).append(ds.LastPrice);
-          value[i].textContent = '$' + parseInt(price[i].textContent)*parseInt(shares[i].textContent);
+          value[i].textContent = '$' + ds.LastPrice*parseInt(shares[i].textContent);
+          totalValue+=ds.LastPrice*parseInt(shares[i].textContent);
+          console.log(totalValue);
+          $('#total-value').html('$'+totalValue);
         }
       });
     })(i);
   }
+
 }
 
 $(window).load(function(){

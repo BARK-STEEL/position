@@ -26,7 +26,11 @@ class Api::TradeController < ApplicationController
       high_price: @high_price,
       low_price: @low_price
       } )
-    current_user.update( {cash: current_user['cash'].to_i-(@last_price.to_i*@trade['number_of_shares'].to_i)} )
+    if @trade['trade_type'] == 'buy'
+      current_user.update( {cash: current_user['cash'].to_i-(@last_price.to_i*@trade['number_of_shares'].to_i)} )
+    else
+      current_user.update( {cash: current_user['cash'].to_i+(@last_price.to_i*@trade['number_of_shares'].to_i)} )
+    end
 
     respond_to do |format|
 
