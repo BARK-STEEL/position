@@ -143,6 +143,9 @@
     var fontColorYTD = colorRedorGreenYTD(jsonResult);
     var glyphicon = arrowUpOrDown(jsonResult);
 
+    var changeYTD = (jsonResult.LastPrice - jsonResult.ChangeYTD);
+
+    console.log(changeYTD)
     $('#results').html("");
 
     $("#results").append(
@@ -153,7 +156,7 @@
     '<button style="margin-top:2%; margin-bottom:2%" id="buy-button" type="button" class="data-point btn btn-primary"   data-toggle="modal" data-target="#buyModal" data-symbol="' + jsonResult.Symbol + '">Buy</button>       ' +
     '<button style="margin-top:2%; margin-bottom:2%" id="sell-button" class="data-point sell-button btn btn-primary" data-symbol="' + jsonResult.Symbol + '" data-shares="<%%=number_of_shares%>" data-toggle="modal" data-target="#sellModal">Sell</button>' +
     '<div class="data-point">' +
-    '<strong> YTD Change: </strong>   <span style="color:' + fontColorYTD + '">$' + jsonResult.ChangeYTD.toFixed(2)  +
+    '<strong> YTD Change: </strong>   <span style="color:' + fontColorYTD + '">$' + changeYTD.toFixed(2)  +
     ' ( ' + jsonResult.ChangePercentYTD.toFixed(2)  + '% ) </span></div>' +
     '<div class="data-point">' +
     '<strong> Open: </strong>   $' + jsonResult.Open.toFixed(2)  + '</div>' +

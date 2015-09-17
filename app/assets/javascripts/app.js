@@ -253,11 +253,9 @@ function addPrices(){
 
 }
 
-// $(window).load(function(){
-//   setTimeout(function(){
-//     addPrices();
-//   },1000);
-//
-//   $('#stock_lookup_form').submit();
-//
-// });
+$(window).load(function(){
+
+
+  $('#stock_lookup_form').submit();
+
+});

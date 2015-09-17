@@ -3,14 +3,14 @@
   <h2 class="title">Leaderboard</h2><hr>
   <br><br>
 
-  <table class="table table-hover">
+  <table class="table table-striped table-hover">
     <th>
       Rank
     </th>
     <th>
       Username
     </th>
-    <th class="success">
+    <th>
       Net Worth
     </th>
     <th>
@@ -54,14 +54,14 @@
     <% color_row(percent_gain) %>
 
 
-    <tr class="<%= @row_class %>">
+    <tr>
     <td>
       <%= i + 1%>
     </td>
     <td>
       <%= user.username %>
     </td>
-    <td class="success">
+    <td>
       $ <%= '%.2f' % user.net_worth %>
     </td>
     <td>

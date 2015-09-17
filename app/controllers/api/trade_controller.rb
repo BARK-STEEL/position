@@ -27,11 +27,15 @@ class Api::TradeController < ApplicationController
       low_price: @low_price
       } )
     if @trade['trade_type'] == 'buy'
-      current_user.update( {cash: current_user['cash'].to_i-(@last_price.to_i*@trade['number_of_shares'].to_i)} )
+      remove_cash(current_user)
+      add_portfolio(current_user)
     else
-      current_user.update( {cash: current_user['cash'].to_i+(@last_price.to_i*@trade['number_of_shares'].to_i)} )
+      add_cash(current_user)
+      remove_portfolio(current_user)
     end
-
+    binding.pry
+    update_net_worth(current_user)
+    binding.pry
     respond_to do |format|
 
       format.json { render json: @trade }
@@ -98,5 +102,47 @@ class Api::TradeController < ApplicationController
     params.require(:trade).permit(:company_symbol, :number_of_shares, :trade_type, :share_purchase_price)
 
   end
+
+  def remove_cash(user)
+    commission = 7.95
+
+    user.update({
+      cash: user['cash'].to_f - ((@last_price.to_f*@trade['number_of_shares'].to_i) + commission)
+      })
+
+  return user
+  end
+
+  def add_cash(user)
+    commission = 7.95
+
+    user.update({
+      cash: user['cash'].to_f + ((@last_price.to_f*@trade['number_of_shares'].to_i) - commission)
+      })
+  return user
+  end
+
+  def add_portfolio(user)
+    user.update({
+      portfolio_value: user['portfolio_value'].to_f + (@last_price.to_f*@trade['number_of_shares'].to_f)
+      })
+  return user
+  end
+
+  def remove_portfolio(user)
+    user.update({
+      portfolio_value: user['portfolio_value'].to_f - (@last_price.to_f*@trade['number_of_shares'].to_f)
+      })
+  return user
+  end
+
+  def update_net_worth(user)
+    net_worth = (user['portfolio_value'].to_f + user['cash'].to_f)
+    user.update({
+      net_worth: net_worth
+      })
+    return user
+  end
+
 
 end
