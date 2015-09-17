@@ -45,9 +45,11 @@ def self.update_user_performance(user)
       } )
 
     if trade['trade_type'] == 'buy'
-      user.update( {cash: user['cash'].to_i-(@last_price.to_i*trade['number_of_shares'].to_i)} )
+      self.remove_cash(current_user)
+      self.add_portfolio(current_user)
     else
-      user.update( {cash: user['cash'].to_i+(@last_price.to_i*trade['number_of_shares'].to_i)} )
+      self.add_cash(current_user)
+      self.remove_portfolio(current_user)
     end
 
     value_added = @last_price.to_f() * trade.number_of_shares
@@ -56,7 +58,7 @@ def self.update_user_performance(user)
     @days_gain += ((@last_price.to_f() - trade.share_purchase_price) * trade.number_of_shares)
 
   end
-  @net_worth = '%.2f' % @net_worth
+  @net_worth = (user.cash + user.portfolio_value)
   @days_gain = '%.2f' % @days_gain
 
   user.update({
@@ -66,10 +68,17 @@ def self.update_user_performance(user)
 
 end
 
+def self.update_open_performance(user)
+  user.update({
+    open_net_worth: user.net_worth
+    })
+end
+
 def self.update_all_users
   User.all.each do |user|
     self.update_user_performance(user)
   end
 end
+
 
 end

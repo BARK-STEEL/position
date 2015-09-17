@@ -137,7 +137,7 @@ class UsersController < ApplicationController
     @net_worth = '%.2f' % @net_worth
     @days_gain = '%.2f' % @days_gain
       user.update({
-        net_worth: @net_worth,
+        net_worth: user.cash + user.portfolio_value,
         days_gain: @days_gain
         })
 
