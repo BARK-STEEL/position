@@ -66,7 +66,7 @@ def update_user_performance(user)
 
 end
 
-def update_all_users
+def self.update_all_users
   User.all.each do |user|
     update_user_performance(user)
   end
