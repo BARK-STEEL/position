@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
     self.token = SecureRandom.urlsafe_base64(nil, false)
   end
 
-  def stock_search( symbol )
+  def self.stock_search( symbol )
 
     response = HTTParty.get("http://dev.markitondemand.com/Api/v2/Quote?symbol=#{symbol}")
 
@@ -33,7 +33,7 @@ def self.update_user_performance(user)
   @days_gain = 0
 
   user.trades.each do |trade|
-    stock_search(trade.company_symbol)
+    self.stock_search(trade.company_symbol)
     trade.update( {
       share_purchase_price: @last_price,
       last_price: @last_price,
@@ -45,9 +45,9 @@ def self.update_user_performance(user)
       } )
 
     if @trade['trade_type'] == 'buy'
-      current_user.update( {cash: current_user['cash'].to_i-(@last_price.to_i*@trade['number_of_shares'].to_i)} )
+      user.update( {cash: user['cash'].to_i-(@last_price.to_i*@trade['number_of_shares'].to_i)} )
     else
-      current_user.update( {cash: current_user['cash'].to_i+(@last_price.to_i*@trade['number_of_shares'].to_i)} )
+      user.update( {cash: current_user['cash'].to_i+(@last_price.to_i*@trade['number_of_shares'].to_i)} )
     end
 
     value_added = @last_price.to_f() * trade.number_of_shares
