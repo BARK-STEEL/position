@@ -89,6 +89,7 @@ class UsersController < ApplicationController
 
   def user_params
 
+
     params.require( :user ).permit( :username, :email, :password, :phone, :profile_image, :cash, :portfolio_value, :net_worth, :days_gain, :open_net_worth )
 
   end
@@ -122,25 +123,10 @@ class UsersController < ApplicationController
 
         stock_search(trade.company_symbol)
 
-        if @response == false
-          puts '***** UPDATE ERROR: RESPONSE FALSE ******'
-        else
-          value_added = @last_price.to_f() * trade.number_of_shares
-          @net_worth += value_added
-          @days_gain += ((@last_price.to_f() - trade.share_purchase_price) * trade.number_of_shares)
-        end
-    end
-    @net_worth = '%.2f' % @net_worth
-    @days_gain = '%.2f' % @days_gain
-      user.update({
+        apply_trade(user, trade)
 
-        net_worth: user.cash + user.portfolio_value,
-        days_gain: @days_gain
-        })
+      end
+    end
 
 
   end
-
-# https://query.yahooapis.com/v1/public/yql?q=select%20symbol%2C%20ChangeRealtime%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22YHOO%22%2C%22AAPL%22%2C%22GOOG%22%2C%22MSFT%22)%20%7C%20sort(field%3D%22ChangeRealtime%22%2C%20descending%3D%22true%22)%0A%09%09&format=json&diagnostics=true&env=http%3A%2F%2Fdatatables.org%2Falltables.env&callback=
-
-end

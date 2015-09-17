@@ -4,6 +4,8 @@ class Api::TradeController < ApplicationController
 
   include Api::TradesHelper
   include SessionsHelper
+  include UsersHelper
+
 
   before_action :current_api_user!
 
@@ -26,14 +28,9 @@ class Api::TradeController < ApplicationController
       high_price: @high_price,
       low_price: @low_price
       } )
-    if @trade['trade_type'] == 'buy'
-      remove_cash(current_user)
-      add_portfolio(current_user)
-    else
-      add_cash(current_user)
-      remove_portfolio(current_user)
-    end
-    update_net_worth(current_user)
+
+      apply_trade(current_user, @trade)
+
     respond_to do |format|
 
       format.json { render json: @trade }
@@ -101,46 +98,7 @@ class Api::TradeController < ApplicationController
 
   end
 
-  def remove_cash(user)
-    commission = 7.95
 
-    user.update({
-      cash: user['cash'].to_f - ((@last_price.to_f*@trade['number_of_shares'].to_i) + commission)
-      })
-
-  return user
-  end
-
-  def add_cash(user)
-    commission = 7.95
-
-    user.update({
-      cash: user['cash'].to_f + ((@last_price.to_f*@trade['number_of_shares'].to_i) - commission)
-      })
-  return user
-  end
-
-  def add_portfolio(user)
-    user.update({
-      portfolio_value: user['portfolio_value'].to_f + (@last_price.to_f*@trade['number_of_shares'].to_f)
-      })
-  return user
-  end
-
-  def remove_portfolio(user)
-    user.update({
-      portfolio_value: user['portfolio_value'].to_f - (@last_price.to_f*@trade['number_of_shares'].to_f)
-      })
-  return user
-  end
-
-  def update_net_worth(user)
-    net_worth = (user['portfolio_value'].to_f + user['cash'].to_f)
-    user.update({
-      net_worth: net_worth
-      })
-    return user
-  end
 
 
 end

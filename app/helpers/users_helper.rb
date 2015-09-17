@@ -26,4 +26,57 @@ module UsersHelper
     @alllinks
   end
 
+  def apply_trade(user, trade)
+    if trade['trade_type'] == 'buy'
+      remove_cash(user)
+      add_portfolio(user)
+    else
+      add_cash(user)
+      remove_portfolio(user)
+    end
+    update_net_worth(user)
+  end
+
+  def remove_cash(user)
+    commission = 7.95
+    cash = user['cash'].to_f - ((@last_price.to_f*@trade['number_of_shares'].to_i) + commission)
+
+    user.update({
+      cash: cash
+      })
+
+  return user
+  end
+
+  def add_cash(user)
+    commission = 7.95
+
+    user.update({
+      cash: user['cash'].to_f + ((@last_price.to_f*@trade['number_of_shares'].to_i) - commission)
+      })
+  return user
+  end
+
+  def add_portfolio(user)
+    user.update({
+      portfolio_value: user['portfolio_value'].to_f + (@last_price.to_f*@trade['number_of_shares'].to_f)
+      })
+  return user
+  end
+
+  def remove_portfolio(user)
+    user.update({
+      portfolio_value: user['portfolio_value'].to_f - (@last_price.to_f*@trade['number_of_shares'].to_f)
+      })
+  return user
+  end
+
+  def update_net_worth(user)
+    net_worth = (user['portfolio_value'].to_f + user['cash'].to_f)
+    user.update({
+      net_worth: net_worth
+      })
+    return user
+  end
+
 end
