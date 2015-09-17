@@ -22,8 +22,6 @@ class UsersController < ApplicationController
 
     @user = User.new(user_params)
 
-    update_user_performance(@user)
-
     if @user.save
 
       respond_to do |format|
@@ -44,8 +42,6 @@ class UsersController < ApplicationController
   def profile
     return nil if !authenticate!
     @user = current_user
-    update_user_performance(@user)
-
 
     @trade = @user.trades.new
     render layout: "profile_layout"
@@ -93,7 +89,8 @@ class UsersController < ApplicationController
 
   def user_params
 
-    params.require( :user ).permit( :username, :email, :password, :phone, :profile_image, :cash, :portfolio_value, :net_worth )
+
+    params.require( :user ).permit( :username, :email, :password, :phone, :profile_image, :cash, :portfolio_value, :net_worth, :days_gain, :open_net_worth )
 
   end
 
@@ -131,6 +128,5 @@ class UsersController < ApplicationController
       end
     end
 
-# https://query.yahooapis.com/v1/public/yql?q=select%20symbol%2C%20ChangeRealtime%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22YHOO%22%2C%22AAPL%22%2C%22GOOG%22%2C%22MSFT%22)%20%7C%20sort(field%3D%22ChangeRealtime%22%2C%20descending%3D%22true%22)%0A%09%09&format=json&diagnostics=true&env=http%3A%2F%2Fdatatables.org%2Falltables.env&callback=
 
-end
+  end

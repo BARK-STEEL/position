@@ -35,9 +35,7 @@ class Api::TradeController < ApplicationController
       add_cash(current_user)
       remove_portfolio(current_user)
     end
-    binding.pry
     update_net_worth(current_user)
-    binding.pry
     respond_to do |format|
 
       format.json { render json: @trade }

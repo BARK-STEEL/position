@@ -28,11 +28,11 @@ module UsersHelper
 
   def apply_trade(user, trade)
     if trade['trade_type'] == 'buy'
-      remove_cash(current_user)
-      add_portfolio(current_user)
+      remove_cash(user)
+      add_portfolio(user)
     else
-      add_cash(current_user)
-      remove_portfolio(current_user)
+      add_cash(user)
+      remove_portfolio(user)
     end
     update_net_worth(user)
   end

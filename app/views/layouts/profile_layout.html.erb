@@ -8,7 +8,7 @@
   <%= csrf_meta_tags %>
 
   <header id="header2" class="row">
-    <h2 id="logo" class="col-xs-10">Position <i class="glyphicon glyphicon-triangle-top" ></i></h2>
+    <h2 id="logo" class="col-xs-10">Position</h2>
       <span role="presentation" class=" dropdown navbar-text">
         <span class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Signed in as <%= @user.username %> <i class="glyphicon glyphicon-user"></i><i class="caret"></i>
         </span>
@@ -62,14 +62,15 @@
     <td class="total-change" style="color: <%%= color %>">
       $<%%= Math.abs(parseFloat(change).toFixed(2)) %>
     </td>
-    <td  style="text-align:center">
+    <td  style="text-align:right">
       <button id="buy-button" type='button' class="btn btn-primary"
       data-symbol="<%%=company_symbol%>" data-shares="<%%=number_of_shares%>" data-toggle="modal" data-target="#buyModal">Buy</button>
     </td>
-    <td style="text-align:center">
+    <td style="text-align:left">
       <button style="text-align:right" id="sell-button" type='button' class="btn btn-primary"
       data-symbol="<%%=company_symbol%>" data-shares="<%%=number_of_shares%>" data-toggle="modal" data-target="#sellModal">Sell</button>
     </td>
+    <td></td>
 
   </script>
   <script type="text/javascript">
@@ -148,23 +149,25 @@
     '<div class="col-xs-6">' +
     '<h4>' + jsonResult.Name  + ' (' + jsonResult.Symbol + ')' + '</h4>' + '<span>as of ' + jsonResult.Timestamp + '</span>' +
     '<h2>$' + jsonResult.LastPrice.toFixed(2) + '<span id="add-arrow" style="color:' + dayFontColor + '"> ' + glyphicon + ' ' + Math.abs(jsonResult.Change.toFixed(2)) + ' (' + Math.abs(jsonResult.ChangePercent.toFixed(2)) + '%) </span></h2>' +
-    '<button style="margin-top:2%; margin-bottom:2%" id="buy-button" type="button" class="data-point btn btn-primary"   data-toggle="modal" data-target="#buyModal" data-symbol="' + jsonResult.Symbol + '">Buy</button>       ' +
-    '<button style="margin-top:2%; margin-bottom:2%" id="sell-button" class="data-point sell-button btn btn-primary" data-symbol="' + jsonResult.Symbol + '" data-shares="<%%=number_of_shares%>" data-toggle="modal" data-target="#sellModal">Sell</button>' +
-    '<div class="data-point">' +
-    '<strong> YTD Change: </strong>   <span style="color:' + fontColorYTD + '">$' + changeYTD.toFixed(2)  +
-    ' ( ' + jsonResult.ChangePercentYTD.toFixed(2)  + '% ) </span></div>' +
-    '<div class="data-point">' +
-    '<strong> Open: </strong>   $' + jsonResult.Open.toFixed(2)  + '</div>' +
-    '<div class="data-point">' +
-    '<strong> High: </strong>   $' + jsonResult.High.toFixed(2)  + '</div>' +
-    '<div class="data-point">' +
-    '<strong> Low: </strong>   $' + jsonResult.Low.toFixed(2)  + '</div>' +
-    '<div class="data-point">' +
-    '<strong> Volume: </strong>   ' + jsonResult.Volume  + '</div></div>' +
+    '<button style="margin-top:2%; margin-bottom:5%" id="buy-button" type="button" class="data-point btn btn-primary"   data-toggle="modal" data-target="#buyModal" data-symbol="' + jsonResult.Symbol + '">Buy</button>       ' +
+    '<button style="margin-top:2%; margin-bottom:5%" id="sell-button" class="data-point sell-button btn btn-primary" data-symbol="' + jsonResult.Symbol + '" data-shares="<%%=number_of_shares%>" data-toggle="modal" data-target="#sellModal">Sell</button>' +
+    '<table><tr class="spaceUnder"><td>' +
+    '<strong><a href="#" data-toggle="popover" data-placement="top" data-content="The change in the price of the stock since the beginning of the current year."><i class="glyphicon glyphicon-info-sign"></i></a> YTD Change: </strong></td>   <td style="padding-left: 10px;"><span style="color:' + fontColorYTD + '">$' + jsonResult.ChangeYTD.toFixed(2)  +
+    ' ( ' + jsonResult.ChangePercentYTD.toFixed(2)  + '% ) </span></td></tr>' +
+    '<tr class="spaceUnder"><td>' +
+    '<strong><a href="#" data-toggle="popover" data-placement="top" data-content="The price at which the stock opened at the start of the trading day."><i class="glyphicon glyphicon-info-sign"></i></a> Open: </strong></td><td style="padding-left: 10px;">$' + jsonResult.Open.toFixed(2)  + '</td></tr>' +
+    '<tr class="spaceUnder"><td>' +
+    '<strong><a href="#" data-toggle="popover" data-placement="top" data-content="The highest price at which the stock has traded in the current trading day."><i class="glyphicon glyphicon-info-sign"></i></a> High: </strong></td><td style="padding-left: 10px;">   $' + jsonResult.High.toFixed(2)  + '</td></tr>' +
+    '<tr class="spaceUnder"><td>' +
+    '<strong><a href="#" data-toggle="popover" data-placement="top" data-content="The lowest price at which the stock has traded in the current trading day."><i class="glyphicon glyphicon-info-sign"></i></a> Low: </strong></td> <td style="padding-left: 10px;">  $' + jsonResult.Low.toFixed(2)  + '</td></tr>' +
+    '<tr class="spaceUnder"><td>' +
+    '<strong><a href="#" data-toggle="popover" data-placement="top" data-content="The total number of shares of the stock that have been traded during the current trading day."><i class="glyphicon glyphicon-info-sign"></i></a> Volume: </strong></td><td style="padding-left: 10px;">   ' + jsonResult.Volume  + '</td></tr></table></div>' +
     '<div class="col-xs-6"><div id="chartDemoContainer"></div></div>'
     );
     return false;
   }
+
+
 </script>
 
 

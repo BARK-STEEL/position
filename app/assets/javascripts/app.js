@@ -42,7 +42,7 @@ app.TradeListView = Backbone.View.extend({
   },
   render: function(){
     this.$el.empty();
-    this.$el.append('<tr class="header-row"><th>Symbol</td><th>Last Price</td><th>Quantity</td><th>Cost Basis</td><th>Current Value</td><th >Total +/-</td><th style="text-align:center" colspan="2">Make Trade</td><td></td></tr>');
+    this.$el.append('<tr class="header-row"><th>Ticker Symbol <a href="#" data-toggle="popover" data-content="The collection of characters representing a company listed on an exchange."><i class="glyphicon glyphicon-info-sign"></i></a></td><th>Current Price <a href="#" data-toggle="popover" data-content="The current price at which a company\'s stock is trading."><i class="glyphicon glyphicon-info-sign"></i></a></td><th>Quantity <a href="#" data-toggle="popover" data-content="The total number of shares of stock owned for a particular company."><i class="glyphicon glyphicon-info-sign"></i></a></td><th>Cost Basis <a href="#" data-toggle="popover" data-content="The original price of an asset, used to determine capital gains."><i class="glyphicon glyphicon-info-sign"></i></a></td><th>Current Value <a href="#" data-toggle="popover" data-content="The current price of a stock multiplied by the total number of shares owned."><i class="glyphicon glyphicon-info-sign"></i></a></td><th >Total +/- <a href="#" data-toggle="popover" data-content="The difference between the cost basis and the current value."><i class="glyphicon glyphicon-info-sign"></i></a></td><th style="text-align:center" colspan="2">Make Trade</td><td></td></tr>');
     var data = companyData();
     var trades = data[0];
     var view;
@@ -239,5 +239,10 @@ $(window).load(function(){
 
   $('#stock_lookup_form').submit();
 
+});
 
+$(document).ready(function(){
+  setTimeout(function(){
+    $('[data-toggle="popover"]').popover();
+  }, 500);
 });
