@@ -4,8 +4,8 @@ module UsersHelper
   require 'httparty'
 
 
-  def get_titles
-    response = HTTParty.get('http://pipes.yahoo.com/pipes/pipe.run?_id=2FV68p9G3BGVbc7IdLq02Q&_render=json&feedcount=10&feedurl=http%3A%2F%2Ffinance.yahoo.com%2Frss%2Fheadline%3Fs%3Dspx')
+  def get_titles(symbol)
+    response = HTTParty.get("http://pipes.yahoo.com/pipes/pipe.run?_id=2FV68p9G3BGVbc7IdLq02Q&_render=json&feedcount=10&feedurl=http%3A%2F%2Ffinance.yahoo.com%2Frss%2Fheadline%3Fs%3D#{symbol}")
     articles = response['value']['items']
     @alltitles = []
     articles.each do |article|
@@ -15,8 +15,8 @@ module UsersHelper
     @alltitles
   end
 
-  def get_links
-    response = HTTParty.get('http://pipes.yahoo.com/pipes/pipe.run?_id=2FV68p9G3BGVbc7IdLq02Q&_render=json&feedcount=10&feedurl=http%3A%2F%2Ffinance.yahoo.com%2Frss%2Fheadline%3Fs%3Dspx')
+  def get_links(symbol)
+    response = HTTParty.get("http://pipes.yahoo.com/pipes/pipe.run?_id=2FV68p9G3BGVbc7IdLq02Q&_render=json&feedcount=10&feedurl=http%3A%2F%2Ffinance.yahoo.com%2Frss%2Fheadline%3Fs%3D#{symbol}")
     articles = response['value']['items']
     @alllinks = []
     articles.each do |article|

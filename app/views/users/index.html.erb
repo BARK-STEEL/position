@@ -3,7 +3,6 @@
   <h2 class="title">Leaderboard</h2><hr>
   <br><br>
 
-
   <table class="table table-hover">
     <th>
       Rank
@@ -11,8 +10,11 @@
     <th>
       Username
     </th>
-    <th>
+    <th class="success">
       Net Worth
+    </th>
+    <th>
+      Portfolio
     </th>
     <th>
       Day's Gain
@@ -20,109 +22,64 @@
     <th>
       Percent Gain
     </th>
+    <th>
+      Cash
+    </th>
+
     <% @users.each_with_index do |user, i| %>
     <% percent_gain = (user.days_gain.to_f() / user.net_worth.to_f()) %>
+    <% portfolio = (user.net_worth - user.cash) %>
+    <% def color_performance(user) %>
+    <%  @font_color = "black" %>
 
-    <% if (percent_gain > 0.5) %>
-    <tr class="success">
-    <td>
-      <%= i + 1%>
-    </td>
-    <td>
-      <%= user.username %>
-    </td>
-    <td>
-      $ <%= '%.2f' % user.net_worth %>
-    </td>
-    <td>
-      $ <%= '%.2f' % user.days_gain %>
-    </td>
-    <td>
-      <%= '%.2f' % percent_gain %>%
-    </td>
-
-    </tr>
-
-    <% elsif (percent_gain > 0.25) %>
-    <tr class="info">
-      <td>
-        <%= i + 1%>
-      </td>
-    <td>
-      <%= user.username %>
-    </td>
-    <td>
-      $ <%= '%.2f' % user.net_worth %>
-    </td>
-    <td>
-      $ <%= '%.2f' % user.days_gain %>
-    </td>
-    <td>
-      <%= '%.2f' % percent_gain %>%
-    </td>
-
-    </tr>
-
-    <% elsif (percent_gain < 0) %>
-    <tr class="warning">
-      <td>
-        <%= i + 1%>
-      </td>
-    <td>
-      <%= user.username %>
-    </td>
-    <td>
-      $ <%= '%.2f' % user.net_worth %>
-    </td>
-    <td>
-      $ <%= '%.2f' % user.days_gain %>
-    </td>
-    <td>
-      <%= '%.2f' % percent_gain %>%
-    </td>
-
-    </tr>
-
-    <% elsif (percent_gain < -0.5) %>
-    <tr class="danger">
-      <td>
-        <%= i + 1%>
-      </td>
-    <td>
-      <%= user.username %>
-    </td>
-    <td>
-      $ <%= '%.2f' % user.net_worth %>
-    </td>
-    <td>
-      $ <%= '%.2f' % user.days_gain %>
-    </td>
-    <td>
-      <%= '%.2f' % percent_gain %>%
-    </td>
-
-    </tr>
-
-    <% else %>
-    <tr class="active">
-    <td>
-      <%= i + 1%>
-    </td>
-    <td>
-      <%= user.username %>
-    </td>
-    <td>
-      $ <%= '%.2f' % user.net_worth %>
-    </td>
-    <td>
-      $ <%= '%.2f' % user.days_gain %>
-    </td>
-    <td>
-      <%= '%.2f' % percent_gain %>%
-    </td>
-
-    </tr>
+    <%  if (user.days_gain > 0) %>
+    <%    @font_color = "green" %>
+    <%  elsif (user.days_gain < 0) %>
+    <%    @font_color = "red" %>
+    <%  end %>
+    <%  return @font_color %>
     <% end %>
+    <% color_performance(user) %>
+
+    <% def color_row(percent_gain) %>
+    <%  @row_class = "active" %>
+
+    <%  if (percent_gain > 0.2) %>
+    <%    @row_class = "success" %>
+    <%  elsif (percent_gain < -0.2) %>
+    <%    @row_class = "danger" %>
+    <%  end %>
+    <%  return @row_class %>
+    <% end %>
+    <% color_row(percent_gain) %>
+
+
+    <tr class="<%= @row_class %>">
+    <td>
+      <%= i + 1%>
+    </td>
+    <td>
+      <%= user.username %>
+    </td>
+    <td class="success">
+      $ <%= '%.2f' % user.net_worth %>
+    </td>
+    <td>
+      $ <%= '%.2f' % portfolio %>
+    </td>
+    <td style="color: <%=@font_color %>">
+      $ <%= '%.2f' % user.days_gain %>
+    </td>
+    <td style="color: <%=@font_color %>">
+      <%= '%.2f' % percent_gain %>%
+    </td>
+    <td>
+      $ <%= '%.2f' % user.cash %>
+    </td>
+
+
+    </tr>
+
 
 
     <% end %>
