@@ -8,6 +8,7 @@ class UsersController < ApplicationController
     @user = current_user
 
     @users = User.order(net_worth: :desc)
+
     render layout: "profile_layout"
   end
 # signup GET  /signup(.:format)        users#new
@@ -54,6 +55,9 @@ class UsersController < ApplicationController
   def stock_lookup
     @user = current_user
     @search_term = params[:search]
+    @all_titles = get_titles(@search_term)
+    @all_links = get_links(@search_term)
+
     render layout: "profile_layout"
   end
 
@@ -74,8 +78,8 @@ class UsersController < ApplicationController
 
   def market_research
     @user = current_user
-    @alltitles = get_titles
-    @alllinks = get_links
+    @alltitles = get_titles('spx')
+    @alllinks = get_links('spx')
     render layout: "profile_layout"
   end
 
@@ -138,7 +142,6 @@ class UsersController < ApplicationController
 
   end
 
-
-
+# https://query.yahooapis.com/v1/public/yql?q=select%20symbol%2C%20ChangeRealtime%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22YHOO%22%2C%22AAPL%22%2C%22GOOG%22%2C%22MSFT%22)%20%7C%20sort(field%3D%22ChangeRealtime%22%2C%20descending%3D%22true%22)%0A%09%09&format=json&diagnostics=true&env=http%3A%2F%2Fdatatables.org%2Falltables.env&callback=
 
 end
