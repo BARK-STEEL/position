@@ -1,17 +1,19 @@
 
 <div class="container">
-  <h2>Market Research</h2>
+  <h2 class="title">Market Research</h2><hr>
 
-  <h4>Major Indexes</h4>
+  <!-- <h4>Major Indexes</h4> -->
 
-  <div class="dow-chart col-xs-4">
-    <img src="http://chart.finance.yahoo.com/t?s=%5eDJI&amp;lang=en-US&amp;region=US&amp;width=300&amp;height=180" alt="Dow Jones Industrial Average (^DJI)" width="300" height="180">
-  </div>
-  <div class="nasdaq-chart col-xs-4">
-    <img src="http://chart.finance.yahoo.com/t?s=%5eIXIC&amp;lang=en-US&amp;region=US&amp;width=300&amp;height=180" alt="Nasdaq (^IXIC)" width="300" height="180" />
-  </div>
-  <div class="SP500-chart col-xs-4">
-    <img src="http://chart.finance.yahoo.com/t?s=%5eGSPC&amp;lang=en-US&amp;region=US&amp;width=300&amp;height=180" alt="SP500 (^GSPC)" width="300" height="180">
+  <div class="">
+    <div class="dow-chart col-xs-4">
+      <img src="http://chart.finance.yahoo.com/t?s=%5eDJI&amp;lang=en-US&amp;region=US&amp;width=300&amp;height=180" alt="Dow Jones Industrial Average (^DJI)" width="300" height="180">
+    </div>
+    <div class="nasdaq-chart col-xs-4">
+      <img src="http://chart.finance.yahoo.com/t?s=%5eIXIC&amp;lang=en-US&amp;region=US&amp;width=300&amp;height=180" alt="Nasdaq (^IXIC)" width="300" height="180" />
+    </div>
+    <div class="SP500-chart col-xs-4">
+      <img src="http://chart.finance.yahoo.com/t?s=%5eGSPC&amp;lang=en-US&amp;region=US&amp;width=300&amp;height=180" alt="SP500 (^GSPC)" width="300" height="180">
+    </div>
   </div>
 
   <!-- <div class="overview col-xs-12">
@@ -70,7 +72,29 @@
             </div>
   </div> -->
 
-  <div class="col-xs-4">
+  <div class="row col-xs-5">
+      <h4 style="margin-top:40px">Top Headlines</h4> <br>
+
+    <table class="table">
+
+      <% @alltitles.each_with_index do |title, i| %>
+      <tr>
+        <td>
+          <%= i +1 %>
+        </td>
+        <td>
+          <a href="<%= @alllinks[i] %>" class="articles"> <%= title %> </a>
+        </td>
+      </tr>
+      <% end %>
+
+
+    </table>
+  </div>
+
+
+
+  <!-- <div class="col-xs-4">
     <h4>Top Headlines</h4>
     <ul>
     <% @alltitles.each_with_index do |title, i| %>
@@ -79,4 +103,4 @@
   </ul>
   </div>
 
-</div>
+</div> -->
