@@ -2,12 +2,13 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='https://fonts.googleapis.com/css?family=Play|Signika+Negative|Michroma|Yellowtail|Quantico|Kotta+One' rel='stylesheet' type='text/css'>
   <title>Position</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 
   <header id="header2" class="row">
-    <h2 id="logo" class="col-xs-10">Position</h2>
+    <h2 id="logo" class="col-xs-10">Position <i class="glyphicon glyphicon-triangle-top" ></i></h2>
       <span role="presentation" class=" dropdown navbar-text">
         <span class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Signed in as <%= @user.username %> <i class="glyphicon glyphicon-user"></i><i class="caret"></i>
         </span>
