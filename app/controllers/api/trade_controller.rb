@@ -28,14 +28,9 @@ class Api::TradeController < ApplicationController
       high_price: @high_price,
       low_price: @low_price
       } )
-    if @trade['trade_type'] == 'buy'
-      remove_cash(current_user)
-      add_portfolio(current_user)
-    else
-      add_cash(current_user)
-      remove_portfolio(current_user)
-    end
-    update_net_worth(current_user)
+
+      apply_trade(current_user, @trade)
+
     respond_to do |format|
 
       format.json { render json: @trade }
