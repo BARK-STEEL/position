@@ -45,11 +45,11 @@ def self.update_user_performance(user)
       } )
 
     if trade['trade_type'] == 'buy'
-      self.remove_cash(current_user)
-      self.add_portfolio(current_user)
+      self.remove_cash(user)
+      self.add_portfolio(user)
     else
-      self.add_cash(current_user)
-      self.remove_portfolio(current_user)
+      self.add_cash(user)
+      self.remove_portfolio(user)
     end
 
     value_added = @last_price.to_f() * trade.number_of_shares

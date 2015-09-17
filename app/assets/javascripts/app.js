@@ -219,7 +219,7 @@ function companyData() {
     totals.total_current_value += companyTotals[symbol][2]*companyTotals[symbol][0];
     totals.total_change += ((companyTotals[symbol][2]*companyTotals[symbol][0]) - companyTotals[symbol][1]);
   }
-  portfolioTotals.push(totals.total_portfolio_shares, totals.total_portfolio_basis,totals.total_current_value.toFixed(2), totals.total_change.toFixed(2) );
+  portfolioTotals.push(totals.total_portfolio_shares, totals.total_portfolio_basis.toFixed(2),totals.total_current_value.toFixed(2), totals.total_change.toFixed(2) );
   return [companyArray,portfolioTotals];
 }
 
@@ -236,9 +236,7 @@ $('form.create-trade').on('submit', function(e){
 });
 
 $(window).load(function(){
-  setTimeout(function(){
     $('#stock_lookup_form').submit();
-  }, 1000);
 });
 
 $(document).ready(function(){
