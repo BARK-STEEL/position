@@ -59,9 +59,9 @@ $(document).ready(function(){
           }
         }
         var color;
-        if (data[1][3] > 0){
+        if (data[1][3] > 0.1){
           color = "green";
-        } else if (data[1][3] < 0) {
+        } else if (data[1][3] < 0.1) {
           color = "red";
         } else {
           color = "black";
