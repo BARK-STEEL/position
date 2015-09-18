@@ -25,7 +25,6 @@ class User < ActiveRecord::Base
         puts '******************'
         puts 'No RESPONSE RECEIVED'
       end
-      sleep (0.5)
 
   end
 
@@ -46,11 +45,11 @@ def self.update_user_performance(user)
       } )
 
     if trade['trade_type'] == 'buy'
-      self.remove_cash(user)
-      self.add_portfolio(user)
+      self.remove_cash(user, trade)
+      self.add_portfolio(user, trade)
     else
-      self.add_cash(user)
-      self.remove_portfolio(user)
+      self.add_cash(user, trade)
+      self.remove_portfolio(user, trade)
     end
 
     value_added = @last_price.to_f() * trade.number_of_shares
@@ -79,8 +78,9 @@ end
 
 def self.update_all_users
   User.all.each do |user|
-    # self.update_user_performance(user)
-    self.update_portfolio(user)
+    self.update_user_performance(user)
+    sleep (1)
+    # self.update_portfolio(user)
   end
 end
 

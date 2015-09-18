@@ -43,3 +43,4 @@ See how your Market Performance stacks up against others
 ### Technologies
 
 * HTML, CSS, Javascript, AJAX, Backbone, Ruby on Rails, Bootstrap.js
+***

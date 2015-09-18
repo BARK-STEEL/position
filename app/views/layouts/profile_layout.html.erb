@@ -2,13 +2,13 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href='https://fonts.googleapis.com/css?family=Play|Signika+Negative|Michroma|Yellowtail|Quantico|Kotta+One' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Play|Signika+Negative|Michroma|Yellowtail|Quantico|Kotta+One|Exo|Chivo|Titillium+Web:400,700,600,600italic,700italic' rel='stylesheet' type='text/css'>  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <title>Position</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 
   <header id="header2" class="row">
-    <h2 id="logo" class="col-xs-10">Position</h2>
+    <h2 id="logo" class="col-xs-10" style="font-family: 'Titillium Web', sans-serif;">Position <i class="fa fa-line-chart"></i></h2>
       <span role="presentation" class=" dropdown navbar-text">
         <span class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Signed in as <%= @user.username %> <i class="glyphicon glyphicon-user"></i><i class="caret"></i>
         </span>
@@ -20,6 +20,17 @@
       </span>
   </header>
   <nav class="navbar navbar-default">
+    <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <!-- <a class="navbar-brand" href="#">Brand</a> -->
+    </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li><a href="/users/profile">My Profile <span class="sr-only">(current)</span></a></li>
@@ -28,7 +39,6 @@
             <li><a href="/users/index">Leaderboard</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-
             <div class="input-group">
               <form class="navbar-form navbar-left" role="search" action="/users/stock_lookup" method="get">
                 <input type="text" class="form-control nav-search" name="search" placeholder="Search Stock" aria-describedby="basic-addon2">
