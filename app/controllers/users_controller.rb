@@ -39,6 +39,10 @@ class UsersController < ApplicationController
 
   end
 
+  # def demo
+  #   User.update_all_users
+  # end
+
   def profile
     return nil if !authenticate!
     @user = current_user

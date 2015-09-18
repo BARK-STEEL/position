@@ -42,7 +42,6 @@ $(document).ready(function(){
   app.TradeListView = Backbone.View.extend({
     initialize: function(){
       this.listenTo( this.collection, 'add', this.render );
-      this.render();
     },
     render: function(){
         this.$el.empty();

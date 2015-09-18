@@ -45,6 +45,8 @@ class Api::TradeController < ApplicationController
 
   end
 
+
+
   def edit
 
     @trade = current_user.trades.last
