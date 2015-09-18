@@ -115,6 +115,7 @@ $(document).ready(function(){
 
   $(document).on('click', '.confirm', function(e){
     $('.numShares').attr('data-shares', 0);
+    $('.modal-backdrop').hide();
   });
 
   $(document).on('click', '#buy-button', function(e){
