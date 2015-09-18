@@ -1,8 +1,27 @@
-# position
+# Position
 
-* A stock-trading simulation application
+* Position is a stock-trading simulation application that allows you to research and purchase shares traded on the NYSE, and compare your portfolio performance of other users.
 
-* Consumes Markit On Demand's series of APIs that provide current stock prices and performance history
+* This application consumes Markit On Demand's series of APIs that provide current stock prices and performance history.
+
+***
+
+
+### Screenshots
+
+Monitor your Account
+![alt text](http://i.imgur.com/1VpLwBc.png "Title")
+
+Research % Buy Stocks
+![alt text](http://i.imgur.com/Y8P4ul5.png "Title")
+
+
+Manage Your Portfolio
+![alt text](http://i.imgur.com/U9Cu1P0.png "Title")
+
+
+See how your Market Performance stacks up against others
+![alt text](http://i.imgur.com/dbrOMml.png "Title")
 
 ***
 
@@ -19,3 +38,8 @@
 * A user can see a list of stock holdings on her profile page, along with performance history, so that she can make better decisions about what stocks to buy, sell or hold
 
 * A user can get a daily text message or email with an overview of stock holdings, so that she can be up to date on her stock performance.
+
+
+### Technologies
+
+* HTML, CSS, Javascript, AJAX, Backbone, Ruby on Rails, Bootstrap.js
