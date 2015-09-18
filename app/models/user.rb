@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
         puts '******************'
         puts 'No RESPONSE RECEIVED'
       end
-      sleep (0.5)
+      sleep (0.7)
 
   end
 
