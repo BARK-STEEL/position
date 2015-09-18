@@ -1,7 +1,6 @@
 
 
 $(document).ready(function(){
-  console.log('scripts loaded');
 
   var token = $('#api-token').val();
   $.ajaxSetup({
@@ -12,6 +11,8 @@ $(document).ready(function(){
   });
 
   var app = app || {};
+
+  //BACKBONE
 
   app.Trade = Backbone.Model.extend({
     defaults: {
@@ -28,6 +29,9 @@ $(document).ready(function(){
   });
 
   app.TradeView = Backbone.View.extend({
+    initialize: function(){
+      this.listenTo( this.model, 'change', this.render );
+    },
     tagName: 'tr',
     className: 'trade',
     template: _.template( $('#trade-template').html() ),
@@ -44,11 +48,20 @@ $(document).ready(function(){
       this.listenTo( this.collection, 'add', this.render );
     },
     render: function(){
+
         this.$el.empty();
+
+        // Appends column headers to table which will hold the backbone view
         this.$el.append('<tr class="header-row"><th>Ticker Symbol <a href="#" data-toggle="popover" data-content="The collection of characters representing a company listed on an exchange."><i class="glyphicon glyphicon-info-sign"></i></a></td><th>Current Price <a href="#" data-toggle="popover" data-content="The current price at which a company\'s stock is trading."><i class="glyphicon glyphicon-info-sign"></i></a></td><th>Quantity <a href="#" data-toggle="popover" data-content="The total number of shares of stock owned for a particular company."><i class="glyphicon glyphicon-info-sign"></i></a></td><th>Cost Basis <a href="#" data-toggle="popover" data-content="The original price of an asset, used to determine capital gains."><i class="glyphicon glyphicon-info-sign"></i></a></td><th>Position Value <a href="#" data-toggle="popover" data-content="The current price of a stock multiplied by the total number of shares owned."><i class="glyphicon glyphicon-info-sign"></i></a></td><th >Total +/- <a href="#" data-toggle="popover" data-content="The difference between the cost basis and the current value."><i class="glyphicon glyphicon-info-sign"></i></a></td><th style="text-align:center" colspan="2">Make Trade</td><td></td></tr>');
+
+        // Accesses aggregate company data
         var data = companyData();
+
+        // Accesses aggregate trade data for each company owned
         var trades = data[0];
         var view;
+
+        // Backbone view rendered for each individual company
         for ( var i = 0; i < trades.length; i++ ){
           if (trades[ i ].number_of_shares > 0){
             view = new app.TradeView({
@@ -58,6 +71,8 @@ $(document).ready(function(){
             this.$el.append( view.$el );
           }
         }
+
+        // Generates color based on positive or negative performance
         var color;
         if (data[1][3] > 0.1){
           color = "green";
@@ -66,10 +81,9 @@ $(document).ready(function(){
         } else {
           color = "black";
         }
+
+        // Appends aggregate portfolio statistics to bottom of table
         this.$el.append('<tr><td></td><td></td><td><b>Total:</b></td><td>$' + data[1][1] + '</td><td>$' + data[1][2] + '</td><td style="color: ' + color + '">$' + Math.abs(data[1][3]) + '</td><td></td><td></td><td></td></tr>');
-    },
-    events: {
-      'load window': 'addPrices'
     }
   });
 
@@ -82,42 +96,11 @@ $(document).ready(function(){
 
   app.trades.fetch();
 
-  $(document).on('click', '.preview_order', function(e){
-    $this = $(this);
-    var price = $('#previewstockPrice').html().slice(1);
-    var numShares = $this.parent().parent().find('.numShares');
-    var order = ((numShares.val()*price)+7.95).toFixed(2);
-    var tradeType = $this.parent().prev().prev().children().first().val();
-    if (order > parseFloat($('#cash').text()) && tradeType === 'buy'){
-      numShares.css('border','1px solid red');
-    } else if ( numShares.val() > parseFloat(numShares.attr('data-shares')) && tradeType === 'sell' ){
-      numShares.css('border','1px solid red');
-    } else {
-      if ( numShares.val() ==="" ) {
-        numShares.css('border','1px solid red');
-      } else {
-        $this = $(this);
-        numShares.css('border', '1px solid black');
-        console.log('shares:' + numShares.val());
-        $('#previewNumShares').html(numShares.val());
-        $('#preview-number-of-shares').val(numShares.val());
-        $('#preview-order-value').html('$' + order);
-        $('#preview-trade-type').val(tradeType);
-        $('#previewTradeType').html(tradeType.charAt(0).toUpperCase() + tradeType.substring(1));
-        $('#PreviewModal').modal('show');
-      }
-    }
-  });
+  // END BACKBONE
 
-  $(document).on('click', '.cancel', function(e){
-    location.reload();
-  });
+  // BUY/SELL MODALS
 
-  $(document).on('click', '.confirm', function(e){
-    $('.numShares').attr('data-shares', 0);
-    $('.modal-backdrop').hide();
-  });
-
+  // Buy-button event listener populates buy modal with company symbol, last price, and number of shares
   $(document).on('click', '#buy-button', function(e){
       $this = $(this);
       var stock = $this.data('symbol');
@@ -138,10 +121,8 @@ $(document).ready(function(){
       $('.buy-symbol').val(stock);
       getStock(stock);
   });
-  $(document).on('click', '#exit-button', function(e){
-    $('.modal-backdrop').hide();
-  });
 
+  // Sell-button event listener populates sell modal with company symbol, last price, and number of shares
   $(document).on('click', '#sell-button', function(e){
       $this = $(this);
       var stock = $this.data('symbol');
@@ -162,6 +143,8 @@ $(document).ready(function(){
       $('.buy-symbol').val(stock);
       getStock(stock);
   });
+
+  // Calls API and returns new function call for rendering html
   function getStock(stock) {
         $.ajax({
           url: '//dev.markitondemand.com/Api/v2/Quote/jsonp',
@@ -174,6 +157,8 @@ $(document).ready(function(){
         });
         return false;
   }
+
+  // Populates modals with data from given stock search
   function drawHtml(jsonResult) {
       console.log('draw');
         $('.stockPrice').html(jsonResult.LastPrice);
@@ -188,12 +173,66 @@ $(document).ready(function(){
         return false;
   }
 
+  // Populates confirm order modal with given symbol, shares, price, and order value
+  $(document).on('click', '.preview_order', function(e){
+    $this = $(this);
+    var price = $('#previewstockPrice').html().slice(1);
+    var numShares = $this.parent().parent().find('.numShares');
+    var order = ((numShares.val()*price)+7.95).toFixed(2);
+    var tradeType = $this.parent().prev().prev().children().first().val();
+
+    // Validates existence of sufficient cash to fulfill buy order
+    if (order > parseFloat($('#cash').text()) && tradeType === 'buy'){
+      numShares.css('border','1px solid red');
+
+    // Validates existence of sufficient shares to fulfill sell order
+    } else if ( numShares.val() > parseFloat(numShares.attr('data-shares')) && tradeType === 'sell' ){
+      numShares.css('border','1px solid red');
+    } else {
+      if ( numShares.val() ==="" ) {
+        numShares.css('border','1px solid red');
+      } else {
+        $this = $(this);
+        numShares.css('border', '1px solid black');
+        console.log('shares:' + numShares.val());
+        $('#previewNumShares').html(numShares.val());
+        $('#preview-number-of-shares').val(numShares.val());
+        $('#preview-order-value').html('$' + order);
+        $('#preview-trade-type').val(tradeType);
+        $('#previewTradeType').html(tradeType.charAt(0).toUpperCase() + tradeType.substring(1));
+        $('#PreviewModal').modal('show');
+      }
+    }
+  });
+
+  // // Reloads page to refresh
+  // $(document).on('click', '.cancel', function(e){
+  //   location.reload();
+  // });
+
+  // Resets shares to O and hides modal backdrop
+  $(document).on('click', '.confirm', function(e){
+    $('.numShares').attr('data-shares', 0);
+    $('.modal-backdrop').hide();
+  });
+
+  // Hides modal backdrop
+  $(document).on('click', '#exit-button', function(e){
+    $('.modal-backdrop').hide();
+  });
+
+
+  // Generates aggregate stats for each company owned and total portfolio
   function companyData() {
 
     var companyTotals = {};
     var totals = {'total_portfolio_shares':0, 'total_portfolio_basis':0, 'total_current_value':0, 'total_change':0};
+
+    // Brings in all trades from database using Backbone collection
     var indTrades = app.trades.models;
     for (var i = 0; i < indTrades.length; i++){
+
+      // Adds shares and position value for buy orders and subtracts for sells
       if (indTrades[i].attributes.trade_type === 'buy'){
         totals.total_portfolio_shares += indTrades[i].attributes.number_of_shares;
         totals.total_portfolio_basis+=(indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price);
@@ -201,6 +240,8 @@ $(document).ready(function(){
         totals.total_portfolio_shares -= indTrades[i].attributes.number_of_shares;
         totals.total_portfolio_basis-=(indTrades[i].attributes.number_of_shares*indTrades[i].attributes.share_purchase_price);
       }
+
+      // Adds to totals for buys and subtracts for sells
       if (companyTotals[indTrades[i].attributes.company_symbol]){
         if (indTrades[i].attributes.trade_type === 'buy'){
           companyTotals[indTrades[i].attributes.company_symbol][0] += indTrades[i].attributes.number_of_shares;
@@ -229,6 +270,7 @@ $(document).ready(function(){
     return [companyArray,portfolioTotals];
   }
 
+  // Creates a new trade using backbone
   $('form.create-trade').on('submit', function(e){
     e.preventDefault();
     var newCompanySymbol = $("#buy-company-symbol").val();
@@ -244,6 +286,8 @@ $(document).ready(function(){
   setTimeout(function(){
     $('[data-toggle="popover"]').popover();
   }, 500);
+
+  // Initiates stock lookup 
   $('#stock_lookup_form').submit();
 
 });

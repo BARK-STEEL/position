@@ -39,10 +39,6 @@ class UsersController < ApplicationController
 
   end
 
-  # def demo
-  #   User.update_all_users
-  # end
-
   def profile
     return nil if !authenticate!
     @user = current_user
@@ -94,7 +90,6 @@ class UsersController < ApplicationController
 
   def user_params
 
-
     params.require( :user ).permit( :username, :email, :password, :phone, :profile_image, :cash, :portfolio_value, :net_worth, :days_gain, :open_net_worth )
 
   end
@@ -119,7 +114,4 @@ class UsersController < ApplicationController
 
   end
 
-
-
-
-  end
+end
