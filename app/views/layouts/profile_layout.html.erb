@@ -68,7 +68,7 @@
     <td class="totalValue">
       $<%%= parseFloat(current_value).toFixed(2) %>
     </td>
-    <%% if (change > 0.01){color = "green";} else if ( change < 0.01 ) {color = "red";} else {color = "black"} %>
+    <%% if (change > 0.01){color = "green";} else if ( change < -0.01 ) {color = "red";} else {color = "black"} %>
     <td class="total-change" style="color: <%%= color %>">
       $<%%= Math.abs(parseFloat(change).toFixed(2)) %>
     </td>
