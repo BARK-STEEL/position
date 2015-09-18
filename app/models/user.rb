@@ -25,7 +25,6 @@ class User < ActiveRecord::Base
         puts '******************'
         puts 'No RESPONSE RECEIVED'
       end
-      sleep (1)
 
   end
 
@@ -45,27 +44,27 @@ def self.update_user_performance(user)
       low_price: @low_price
       } )
 
-    if trade['trade_type'] == 'buy'
-      self.remove_cash(user, trade)
-      self.add_portfolio(user, trade)
-    else
-      self.add_cash(user, trade)
-      self.remove_portfolio(user, trade)
-    end
-
-    value_added = @last_price.to_f() * trade.number_of_shares
-    @net_worth += value_added
-
-    @days_gain += ((@last_price.to_f() - trade.share_purchase_price) * trade.number_of_shares)
-
+  #   if trade['trade_type'] == 'buy'
+  #     self.remove_cash(user, trade)
+  #     self.add_portfolio(user, trade)
+  #   else
+  #     self.add_cash(user, trade)
+  #     self.remove_portfolio(user, trade)
+  #   end
+  #
+  #   value_added = @last_price.to_f() * trade.number_of_shares
+  #   @net_worth += value_added
+  #
+  #   @days_gain += ((@last_price.to_f() - trade.share_purchase_price) * trade.number_of_shares)
+  #
   end
-  @net_worth = (user.cash + user.portfolio_value)
-  @days_gain = '%.2f' % @days_gain
-
-  user.update({
-    net_worth: @net_worth,
-    days_gain: @days_gain
-    })
+  # @net_worth = (user.cash + user.portfolio_value)
+  # @days_gain = '%.2f' % @days_gain
+  #
+  # user.update({
+  #   net_worth: @net_worth,
+  #   days_gain: @days_gain
+  #   })
 
 end
 
@@ -80,6 +79,7 @@ end
 def self.update_all_users
   User.all.each do |user|
     self.update_user_performance(user)
+    sleep (1)
     # self.update_portfolio(user)
   end
 end
