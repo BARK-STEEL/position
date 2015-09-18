@@ -79,8 +79,8 @@ end
 
 def self.update_all_users
   User.all.each do |user|
-    # self.update_user_performance(user)
-    self.update_portfolio(user)
+    self.update_user_performance(user)
+    # self.update_portfolio(user)
   end
 end
 

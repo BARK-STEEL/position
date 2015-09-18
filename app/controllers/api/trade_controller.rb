@@ -80,6 +80,7 @@ class Api::TradeController < ApplicationController
   def stock_search( symbol )
 
     response = HTTParty.get("http://dev.markitondemand.com/Api/v2/Quote?symbol=#{symbol}")
+    binding.pry
     @company_name = response['StockQuote']['Name']
     @last_price = response['StockQuote']['LastPrice']
     @dollar_change = response['StockQuote']['Change']
