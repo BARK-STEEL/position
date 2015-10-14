@@ -52,8 +52,8 @@ class UsersController < ApplicationController
   def stock_lookup
     @user = current_user
     @search_term = params[:search]
-    @all_titles = get_titles(@search_term)
-    @all_links = get_links(@search_term)
+    # @all_titles = get_titles(@search_term)
+    # @all_links = get_links(@search_term)
 
     render layout: "profile_layout"
   end
@@ -75,8 +75,8 @@ class UsersController < ApplicationController
 
   def market_research
     @user = current_user
-    @alltitles = get_titles('spx')
-    @alllinks = get_links('spx')
+    # @alltitles = get_titles('spx')
+    # @alllinks = get_links('spx')
     render layout: "profile_layout"
   end
 

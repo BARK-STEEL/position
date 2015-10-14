@@ -14,53 +14,14 @@
 </div>
 
 <br><br>
-<div class="row" style="text-align:center">
+<!-- <div class="row" style="text-align:center">
     <h4>Top Headlines for Symbol: <%= @search_term.upcase %></h4>
-</div>
+</div> -->
 
 <br>
 <div class="row">
 
-<div class="col-xs-6">
-  <table class="table">
 
-    <% @all_titles.each_with_index do |title, i| %>
-
-    <% if ((i + 1) % 2 != 0) %>
-    <tr>
-      <td>
-        <%= i +1 %>
-      </td>
-      <td>
-        <a href="<%= @all_links[i] %>" class="articles"> <%= title %> </a>
-      </td>
-    </tr>
-    <%end%>
-    <% end %>
-
-
-  </table>
-</div>
-
-<div class="col-xs-6">
-  <table class="table">
-
-    <% @all_titles.each_with_index do |title, i| %>
-
-    <% if ((i + 1) % 2 == 0) %>
-    <tr>
-      <td>
-        <%= i +1 %>
-      </td>
-      <td>
-        <a href="<%= @all_links[i] %>" class="articles"> <%= title %> </a>
-      </td>
-    </tr>
-    <%end%>
-    <% end %>
-
-
-  </table>
 </div>
 
 
